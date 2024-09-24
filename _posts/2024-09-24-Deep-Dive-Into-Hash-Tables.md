@@ -1,9 +1,6 @@
 ---
 layout: post
 ---
-
-# Deep Dive into Hash Tables: Implementation and Analysis
-
 Hash tables are a fundamental data structure in computer science, offering a powerful combination of fast lookups, insertions, and deletions. In this comprehensive guide, we'll explore the inner workings of hash tables, implement them in C, and analyze their performance characteristics. We'll also discuss various collision resolution strategies and provide optimized code examples for real-world applications.
 
 ## Table of Contents
