@@ -1,6 +1,6 @@
 # chessman
 
-**Forked From: ** https://github.com/huangyz0918/moving.git
+**Forked From:** https://github.com/huangyz0918/moving.git
 
 ## Installation
 Install required gems using `bundle`:
