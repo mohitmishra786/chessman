@@ -1,5 +1,6 @@
-# Demystifying Threads in C: A Deep Dive into Concurrent Programming
-
+---
+layout: post
+---
 In the world of modern computing, the ability to perform multiple tasks simultaneously is not just a luxury—it's a necessity. Enter threads: a powerful, fascinating, and sometimes daunting tool in a programmer's arsenal. Today, we're going to embark on a journey into the realm of concurrent programming, specifically focusing on threads in C.
 
 ## Understanding Threads: The Basics
