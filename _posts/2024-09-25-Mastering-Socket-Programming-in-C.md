@@ -1,8 +1,6 @@
 ---
 layout: post
 ---
-# Mastering Socket Programming in C: A Comprehensive Guide
-
 Socket programming is a fundamental aspect of network programming that allows applications to communicate over a network. In this comprehensive guide, we'll dive deep into the world of socket programming in C, exploring its concepts, API calls, and practical implementations. Whether you're a beginner or looking to refresh your knowledge, this post will provide you with a solid foundation in socket programming.
 
 ## Table of Contents
