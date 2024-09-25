@@ -8,23 +8,39 @@ jobs:
   update-upvote:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Update upvote count
+      - name: Update or Create upvote count
         run: |
+          # Extract post ID from the event payload
           post_id="${{ github.event.client_payload.post_id }}"
+
+          # Ensure the _upvotes directory exists
           mkdir -p _upvotes
+
+          # Define the file path for the vote count
           file="_upvotes/${post_id}_stats.txt"
+
+          # Check if the file exists
           if [ -f "$file" ]; then
+            # If file exists, read the current count and increment it
             count=$(($(cat "$file") + 1))
           else
+            # If file does not exist, start the count at 1
             count=1
           fi
+
+          # Write the new count to the file
           echo $count > "$file"
 
-      - name: Commit and push if changed
+      - name: Commit and push changes
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          git add -A
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update upvote count for ${post_id}" && git push)
+          git add _upvotes/
+          # Only commit and push if there are changes
+          git diff --quiet && git diff --staged --quiet || (
+            git commit -m "Update or initialize upvote count for ${post_id}" &&
+            git push
+          )
