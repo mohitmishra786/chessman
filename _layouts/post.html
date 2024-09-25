@@ -108,15 +108,15 @@ layout: default
 
                     // In production, this would trigger the GitHub Action
                     // For local development, we're just updating the count in the DOM
-                    if (
-                        window.location.hostname === "localhost" ||
-                        window.location.hostname === "127.0.0.1"
-                    ) {
-                        console.log(
-                            "Local environment detected. Skipping GitHub API call.",
-                        );
-                        return;
-                    }
+                    // if (
+                    //     window.location.hostname === "localhost" ||
+                    //     window.location.hostname === "127.0.0.1"
+                    // ) {
+                    //     console.log(
+                    //         "Local environment detected. Skipping GitHub API call.",
+                    //     );
+                    //     return;
+                    // }
 
                     fetch(
                         "https://api.github.com/repos/{{ site.github.owner_name }}/{{ site.github.repository_name }}/dispatches",
