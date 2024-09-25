@@ -48,3 +48,10 @@ remote_theme: huangyz0918/moving
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+
+# Include _upvotes directory for upvote functionality
+include:
+  - _upvotes
+
+# GitHub repository name for upvote functionality
+repository: mohitmishra786/chessman

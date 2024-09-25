@@ -1,0 +1,30 @@
+name: Handle Upvote
+
+on:
+  repository_dispatch:
+    types: [upvote]
+
+jobs:
+  update-upvote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Update upvote count
+        run: |
+          post_id="${{ github.event.client_payload.post_id }}"
+          mkdir -p _upvotes
+          file="_upvotes/${post_id}_stats.txt"
+          if [ -f "$file" ]; then
+            count=$(($(cat "$file") + 1))
+          else
+            count=1
+          fi
+          echo $count > "$file"
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update upvote count for ${post_id}" && git push)
