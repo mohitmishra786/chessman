@@ -2,134 +2,68 @@
 layout: default
 ---
 
-<!doctype html>
-<html lang="en">
+<article
+    class="post h-entry"
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+>
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{{ page.title }}</title>
         <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"
+            type="text/javascript"
             async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"
         ></script>
         <script src="https://unpkg.com/d3@5.16.0/dist/d3.min.js"></script>
         <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
         <script src="https://unpkg.com/d3-graphviz@3.1.0/build/d3-graphviz.min.js"></script>
+        <title>{{ page.title }}</title>
     </head>
-    <body>
-        <article
-            class="post h-entry"
-            itemscope
-            itemtype="http://schema.org/BlogPosting"
-        >
-            <!-- your existing header and content -->
-            <div class="post-content e-content" itemprop="articleBody">
-                {{ content }}
-                <div id="upvote-section">
-                    <button id="upvote-button">Upvote</button>
-                    <span id="upvote-count">0</span> upvotes
-                </div>
-            </div>
-        </article>
-
+    <header class="post-header">
+        <div class="post-back">
+            <a class="black-link" href="{{ site.url | relative_url }}">
+                ← {{ site.moving.back_to }}
+            </a>
+        </div>
+        <h1 class="post-title p-name" itemprop="name headline">
+            {{ page.title | escape }}
+        </h1>
+        <p class="post-meta">
+            <time
+                class="dt-published"
+                datetime="{{ page.date | date_to_xmlschema }}"
+                itemprop="datePublished"
+            >
+                {%- assign date_format = "%b %-d, %Y" -%} {{ page.date | date:
+                date_format }}
+            </time>
+            {%- if page.author -%} •
+            <span
+                itemprop="author"
+                itemscope
+                itemtype="http://schema.org/Person"
+                ><span class="p-author h-card" itemprop="name"
+                    >{{ page.author | escape }}</span
+                ></span
+            >
+            {%- endif -%}
+        </p>
+    </header>
+    <div class="post-content e-content" itemprop="articleBody">
+        {{ content }}
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                // Graphviz rendering
-                function d3ize(elem) {
-                    var par = elem.parentElement;
-                    d3.select(par).graphviz().renderDot(elem.innerText);
-                    d3.select(elem).style("display", "none");
-                }
-
-                var dotelems = document.getElementsByClassName("language-dot");
-                for (let elem of dotelems) {
-                    d3ize(elem);
-                }
-
-                // Upvote functionality
-                const upvoteButton = document.getElementById("upvote-button");
-                const upvoteCount = document.getElementById("upvote-count");
-                const postId = "{{ page.id | slugify }}";
-                const githubToken = "UPVOTE_EVERYTIME"; // Use environment variable or replace with token
-                const repoOwner = "{{ site.github.owner_name }}";
-                const repoName = "{{ site.github.repository_name }}";
-
-                function fetchOrCreateUpvoteFile() {
-                    fetch(`/upvotes/${postId}_stats.txt`)
-                        .then((response) => {
-                            if (!response.ok) {
-                                if (response.status === 404) {
-                                    console.log(
-                                        "Upvote file does not exist. Will initialize on upvote.",
-                                    );
-                                } else {
-                                    throw new Error(
-                                        "File fetch error: " +
-                                            response.statusText,
-                                    );
-                                }
-                                return "0";
-                            }
-                            return response.text();
-                        })
-                        .then((count) => {
-                            upvoteCount.textContent = count.trim();
-                        })
-                        .catch((error) => {
-                            console.error(
-                                "Error fetching or initializing upvote count:",
-                                error,
-                            );
-                            upvoteCount.textContent = "0";
-                        });
-                }
-
-                fetchOrCreateUpvoteFile();
-
-                upvoteButton.addEventListener("click", function () {
-                    let currentCount =
-                        parseInt(upvoteCount.textContent, 10) || 0;
-                    upvoteCount.textContent = (currentCount + 1).toString();
-
-                    if (
-                        window.location.hostname === "localhost" ||
-                        window.location.hostname === "127.0.0.1"
-                    ) {
-                        console.log(
-                            "Local environment detected. Mocking upvote increment.",
-                        );
-                        return; // Skip GitHub API call in local development
-                    }
-
-                    fetch(
-                        `https://api.github.com/repos/${repoOwner}/${repoName}/dispatches`,
-                        {
-                            method: "POST",
-                            headers: {
-                                Authorization: `Bearer ${githubToken}`,
-                                Accept: "application/vnd.github.v3+json",
-                            },
-                            body: JSON.stringify({
-                                event_type: "upvote",
-                                client_payload: {
-                                    post_id: postId,
-                                    action: "increment_or_create",
-                                },
-                            }),
-                        },
-                    )
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error("Network response was not ok");
-                            }
-                            return response.json();
-                        })
-                        .then((data) => console.log("Success:", data))
-                        .catch((error) => {
-                            console.error("Error triggering upvote:", error);
-                        });
-                });
-            });
+            function d3ize(elem) {
+                var par = elem.parentElement;
+                d3.select(par)
+                    .append("div")
+                    .graphviz()
+                    .renderDot(elem.innerText);
+                d3.select(elem).style("display", "none");
+            }
+            var dotelems = document.getElementsByClassName("language-dot");
+            for (let elem of dotelems) {
+                d3ize(elem);
+            }
         </script>
-    </body>
-</html>
+    </div>
+    <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+</article>
