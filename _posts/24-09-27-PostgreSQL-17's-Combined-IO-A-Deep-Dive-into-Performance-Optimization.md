@@ -8,7 +8,7 @@ PostgreSQL, one of the most popular open-source relational database management s
 
 ## The Rise of PostgreSQL
 
-Before we dive into the technical details, it's worth noting the recent surge in PostgreSQL's popularity. According to the transcript, PostgreSQL has become the most popular database in the past two years. This increased attention has led to:
+Before we dive into the technical details, it's worth noting the recent surge in PostgreSQL's popularity. PostgreSQL has become the most popular database in the past two years. This increased attention has led to:
 
 1. More funding for the PostgreSQL community
 2. An influx of developers and interested parties
@@ -159,8 +159,6 @@ PostgreSQL's Combined I/O feature interacts with these kernel mechanisms in seve
 
 ## Implementation Details
 
-While the full implementation details of Combined I/O in PostgreSQL 17 are not provided in the transcript, we can infer some likely aspects of the implementation:
-
 ### 1. Scan Type Detection
 
 PostgreSQL would need to detect when it's performing operations that are likely to benefit from Combined I/O, such as:
@@ -244,8 +242,6 @@ While Combined I/O promises performance improvements, its impact will vary depen
 
 ## Comparison with Other Databases
 
-While the transcript doesn't provide information on how Combined I/O compares to similar features in other database systems, it's worth noting that other databases have implemented related optimizations:
-
 1. **Oracle**: Has long had a "multiblock read" feature that allows reading multiple database blocks in a single I/O operation.
 
 2. **MySQL/InnoDB**: Implements "read-ahead" at the storage engine level, which can read multiple pages in a single I/O operation.
@@ -276,12 +272,10 @@ The addition of Combined I/O also demonstrates the ongoing commitment of the Pos
 
 ## References
 
-While the transcript doesn't provide direct references, here are some relevant resources for further reading on the topics discussed:
+Here are some relevant resources for further reading on the topics discussed:
 
 1. PostgreSQL Documentation: [https://www.postgresql.org/docs/](https://www.postgresql.org/docs/)
 2. Linux Kernel Documentation on Read-Ahead: [https://www.kernel.org/doc/Documentation/block/queue-sysfs.txt](https://www.kernel.org/doc/Documentation/block/queue-sysfs.txt)
 3. PostgreSQL Wiki on Buffer Management: [https://wiki.postgresql.org/wiki/Buffer_Management](https://wiki.postgresql.org/wiki/Buffer_Management)
 4. Linux man page for preadv: [https://man7.org/linux/man-pages/man2/preadv.2.html](https://man7.org/linux/man-pages/man2/preadv.2.html)
 5. PostgreSQL 17 Development: [https://www.postgresql.org/developer/](https://www.postgresql.org/developer/)
-
-For the most up-to-date information on Combined I/O in PostgreSQL 17, it's recommended to check the official PostgreSQL documentation and release notes once version 17 is officially released.
