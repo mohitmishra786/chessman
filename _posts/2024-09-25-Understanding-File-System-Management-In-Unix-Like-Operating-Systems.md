@@ -227,17 +227,31 @@ Now that we understand the underlying mechanisms, let's implement a simple shell
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <errno.h>
+#include <pwd.h>
 
 #define MAX_CMD_LENGTH 1024
 #define MAX_ARGS 64
+#define MAX_PATH 1024
+
+void print_prompt() {
+    char hostname[1024];
+    char cwd[MAX_PATH];
+    struct passwd *pw = getpwuid(getuid());
+
+    gethostname(hostname, sizeof(hostname));
+    getcwd(cwd, sizeof(cwd));
+
+    printf("\033[1;32m%s@%s\033[0m:\033[1;34m%s\033[0m$ ", pw->pw_name, hostname, cwd);
+    fflush(stdout);
+}
 
 void execute_command(char *args[], int input_fd, int output_fd) {
     pid_t pid = fork();
-
     if (pid == -1) {
-        perror("Error forking process");
+        perror("\033[1;31mError forking process\033[0m");
         exit(1);
-    } else if (pid == 0) {  // Child process
+    } else if (pid == 0) {
         if (input_fd != STDIN_FILENO) {
             dup2(input_fd, STDIN_FILENO);
             close(input_fd);
@@ -247,8 +261,9 @@ void execute_command(char *args[], int input_fd, int output_fd) {
             close(output_fd);
         }
 
+        printf("\033[1;33mExecuting command: %s\033[0m\n", args[0]);
         execvp(args[0], args);
-        perror("Error executing command");
+        fprintf(stderr, "\033[1;31mError executing command '%s': %s\033[0m\n", args[0], strerror(errno));
         exit(1);
     }
 }
@@ -257,16 +272,26 @@ int main() {
     char input[MAX_CMD_LENGTH];
     char *commands[MAX_ARGS];
     int num_commands;
+    int i;
+
+    printf("\033[1;36mWelcome to MyShell!\033[0m\n");
+    printf("Type 'exit' to quit the shell.\n\n");
 
     while (1) {
-        printf("myshell> ");
+        print_prompt();
+
         if (fgets(input, sizeof(input), stdin) == NULL) {
+            printf("\n");
             break;
         }
 
-        input[strcspn(input, "\n")] = 0;  // Remove newline
+        input[strcspn(input, "\n")] = 0;
 
-        // Split input into commands
+        if (strcmp(input, "exit") == 0) {
+            printf("\033[1;36mGoodbye!\033[0m\n");
+            break;
+        }
+
         num_commands = 0;
         commands[num_commands] = strtok(input, "|");
         while (commands[num_commands] != NULL) {
@@ -277,12 +302,13 @@ int main() {
         int pipes[2];
         int input_fd = STDIN_FILENO;
 
-        for (int i = 0; i < num_commands; i++) {
+        for (i = 0; i < num_commands; i++) {
             char *args[MAX_ARGS];
             int arg_count = 0;
+            char *token;
 
             // Split command into arguments
-            char *token = strtok(commands[i], " ");
+            token = strtok(commands[i], " ");
             while (token != NULL) {
                 args[arg_count++] = token;
                 token = strtok(NULL, " ");
@@ -291,7 +317,7 @@ int main() {
 
             if (i < num_commands - 1) {
                 if (pipe(pipes) == -1) {
-                    perror("Error creating pipe");
+                    perror("\033[1;31mError creating pipe\033[0m");
                     exit(1);
                 }
             }
@@ -310,8 +336,16 @@ int main() {
             input_fd = pipes[0];
         }
 
-        // Wait for all child processes to finish
-        while (wait(NULL) > 0);
+        int status;
+        while (wait(&status) > 0) {
+            if (WIFEXITED(status)) {
+                printf("\033[1;32mChild process exited with status %d\033[0m\n", WEXITSTATUS(status));
+            } else if (WIFSIGNALED(status)) {
+                printf("\033[1;31mChild process terminated by signal %d\033[0m\n", WTERMSIG(status));
+            }
+        }
+
+        printf("\n");
     }
 
     return 0;
