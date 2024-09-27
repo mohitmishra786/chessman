@@ -122,17 +122,17 @@ While PostgreSQL now handles this optimization internally, understanding the con
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define MAX_KEYS_PER_PAGE 100
-#define MAX_SEARCH_VALUES 1000
+#define MAX_KEYS_PER_PAGE 5
+#define MAX_SEARCH_VALUES 10
 
-typedef struct {
+struct BTreePage {
     int keys[MAX_KEYS_PER_PAGE];
     int num_keys;
     struct BTreePage *next;
-} BTreePage;
+};
 
-bool search_multiple_values(BTreePage *root, int search_values[], int num_search_values) {
-    BTreePage *current_page = root;
+bool search_multiple_values(struct BTreePage *root, int search_values[], int num_search_values) {
+    struct BTreePage *current_page = root;
     bool found_values[MAX_SEARCH_VALUES] = {false};
     int found_count = 0;
 
@@ -143,20 +143,31 @@ bool search_multiple_values(BTreePage *root, int search_values[], int num_search
                     found_values[j] = true;
                     found_count++;
                     printf("Found value %d\n", search_values[j]);
-                    break;
+                    if (found_count == num_search_values) {
+                        return true;
+                    }
+                    break; // Move to the next key in this page
                 }
             }
         }
         current_page = current_page->next;
     }
-
     return found_count == num_search_values;
 }
 
 int main() {
-    // Create a simple B-tree structure (just a linked list of pages for simplicity)
-    BTreePage page1 = {{1, 2, 3, 4, 5}, 5, NULL};
-    BTreePage page2 = {{6, 7, 8, 9, 10}, 5, NULL};
+    struct BTreePage page1;
+    page1.num_keys = 5;
+    int keys1[] = {1, 2, 3, 4, 5};
+    for (int i = 0; i < page1.num_keys; i++) page1.keys[i] = keys1[i];
+    page1.next = malloc(sizeof(struct BTreePage)); // Allocate memory for the next page
+
+    struct BTreePage page2;
+    page2.num_keys = 5;
+    int keys2[] = {6, 7, 8, 9, 10};
+    for (int i = 0; i < page2.num_keys; i++) page2.keys[i] = keys2[i];
+    page2.next = NULL;
+
     page1.next = &page2;
 
     int search_values[] = {2, 5, 8, 10};
@@ -164,6 +175,8 @@ int main() {
 
     bool all_found = search_multiple_values(&page1, search_values, num_search_values);
     printf("All values found: %s\n", all_found ? "Yes" : "No");
+
+    free(page1.next);
 
     return 0;
 }
