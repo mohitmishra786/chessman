@@ -1,4 +1,6 @@
-# Technical Deep Dive: How Real-Time Linux Works
+---
+layout: post
+---
 
 Real-time operating systems (RTOS) are crucial for applications that require deterministic behavior and guaranteed response times. Linux, with its PREEMPT_RT patch, has become a viable option for real-time computing. This blog post provides a comprehensive technical overview of how real-time support is implemented in Linux, focusing on the key components and mechanisms that enable deterministic behavior.
 
