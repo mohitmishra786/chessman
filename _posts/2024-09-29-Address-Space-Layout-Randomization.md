@@ -50,6 +50,51 @@ ASLR operates by introducing randomness into the memory layout of a process. Her
 
 The randomization process typically occurs during the loading of the program, before execution begins. The degree of randomization can vary depending on the operating system and its configuration.
 
+```dot
+digraph ASLR {
+    rankdir=TB;
+    node [shape=box, style="rounded,filled", fillcolor=lightblue];
+    edge [color=black];
+
+    start [label="Program Start", shape=ellipse];
+    load [label="Load Program"];
+    randomize [label="Randomize Base Addresses"];
+    stack [label="Randomize Stack"];
+    heap [label="Randomize Heap"];
+    libraries [label="Randomize Shared Libraries"];
+    mmap [label="Randomize mmap Regions"];
+    execute [label="Execute Program"];
+    end [label="Program End", shape=ellipse];
+
+    start -> load;
+    load -> randomize;
+    randomize -> stack;
+    randomize -> heap;
+    randomize -> libraries;
+    randomize -> mmap;
+    stack -> execute;
+    heap -> execute;
+    libraries -> execute;
+    mmap -> execute;
+    execute -> end;
+
+    subgraph cluster_0 {
+        label = "ASLR Process";
+        style = filled;
+        color = lightgrey;
+        randomize; stack; heap; libraries; mmap;
+    }
+
+    { rank = same; stack; heap; libraries; mmap; }
+
+    attack [label="Potential Attack", shape=diamond, fillcolor=lightsalmon];
+    attack -> execute [label="Mitigated", style=dashed, color=red];
+
+    note [label="ASLR increases difficulty\nof memory-based attacks", shape=note, fillcolor=lightyellow];
+    note -> attack [style=dotted, arrowhead=none];
+}
+```
+
 ## 4. ASLR Implementation in Different Operating Systems
 
 ASLR has been implemented in various operating systems, each with its own approach:
