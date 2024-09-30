@@ -1,5 +1,5 @@
 ---
-layout: posts
+layout: post
 ---
 
 ## Introduction
@@ -362,3 +362,31 @@ usertrap(void)
 xv6's memory layout and trap handling mechanisms demonstrate the intricate dance between hardware and software in modern operating systems. By carefully managing virtual and physical memory, and providing a robust trap handling system, xv6 ensures safe and efficient execution of user programs while maintaining the integrity of the kernel.
 
 Understanding these concepts is crucial for anyone looking to delve deeper into operating system design and implementation. The xv6 operating system provides an excellent educational platform for exploring these concepts in a relatively simple yet realistic environment.
+
+
+```dot
+digraph xv6_trap_handling {
+  rankdir=TB;
+  node [shape=box];
+  
+  user [label="User Code"];
+  ecall [label="ecall Instruction"];
+  hardware [label="Hardware Response"];
+  trampoline_entry [label="Trampoline (Entry)"];
+  usertrap [label="usertrap()"];
+  syscall [label="syscall()"];
+  usertrapret [label="usertrapret()"];
+  trampoline_exit [label="Trampoline (Exit)"];
+  
+  user -> ecall;
+  ecall -> hardware;
+  hardware -> trampoline_entry;
+  trampoline_entry -> usertrap;
+  usertrap -> syscall;
+  syscall -> usertrapret;
+  usertrapret -> trampoline_exit;
+  trampoline_exit -> user;
+}
+```
+
+This diagram illustrates the flow of control during a system call, from user space through the various components of the trap handling system and back to user space.
