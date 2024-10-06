@@ -63,11 +63,11 @@ One of the most significant obstacles in merging PREEMPT_RT into the mainline ke
 
 The `printk` function is crucial for kernel debugging but can introduce unpredictable delays, which is problematic for a real-time system. Resolving this issue required careful redesign and compromise to maintain the function's utility while allowing for real-time behavior.
 
-### Final Merge (September 2023)
+### Final Merge (September 2024)
 
 After years of development and overcoming numerous technical hurdles, the real-time patches were finally ready for inclusion in the mainline kernel. In a symbolic gesture, the code changes were presented to Linus Torvalds wrapped in gold paper with a purple ribbon at the Linux Plumbers Conference.
 
-On September 20, 2023, exactly 19 years after the PREEMPT_RT project's inception, the patches were merged into the mainline Linux kernel, marking a historic moment for the Linux community.
+On September 20, 2024, exactly 20 years after the PREEMPT_RT project's inception, the patches were merged into the mainline Linux kernel, marking a historic moment for the Linux community.
 
 ## Technical Deep Dive: How Real-Time Linux Works
 
