@@ -69,7 +69,8 @@ The linker is the unsung hero of the compilation process, taking the pieces asse
 
 **Example: A Simple Linker Script**
 
-```linker script
+```bash
+// linker script
 ENTRY(_start)
 
 SECTIONS
