@@ -427,23 +427,11 @@ Understanding assembly language is crucial for:
 
 * **Interfacing with Hardware:** Interacting with hardware often requires understanding and manipulating data at the bit level.  Assembly language provides the fine-grained control necessary for these tasks.
 
-### Part 7:  A Visual Guide - Mapping the Freestanding C++ Journey with Graphviz
+### Part 7:  A Visual Guide - Mapping the Freestanding C++ Journey
 
 Visual representations can be invaluable for understanding complex processes. Graphviz, a graph visualization software, can help us map out the entire journey of building and executing freestanding C++ code.
 
 ![Visual](https://github.com/user-attachments/assets/f7186323-3605-4a6b-aeed-bf7640409662)
-
-
-**Explanation:**
-
-* **Nodes:** Each box represents a component or concept involved in the freestanding C++ development process.
-* **Clusters:**  We group related components into clusters to represent different stages of the process.
-* **Edges:** Arrows represent the flow of information or execution.
-* **Labels:** Labels provide descriptive information about each component or relationship.
-
-**Generated Diagram:**
-
-The above Graphviz code, when processed, generates a diagram illustrating the journey from C++ source code to execution in a freestanding environment. 
 
 ### Conclusion: Embracing the Power (and Responsibility) of Freestanding C++
 
