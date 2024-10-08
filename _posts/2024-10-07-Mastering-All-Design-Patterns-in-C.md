@@ -341,24 +341,6 @@ void setState(Subject* subject, int state) {
     }
 }
 ```
-and main function for this will be
-```
-int main() {
-    Subject subject;
-    initSubject(&subject);
-
-    ConcreteObserver observer1 = {{concreteUpdate}, 1};
-    ConcreteObserver observer2 = {{concreteUpdate}, 2};
-
-    attachObserver(&subject, (Observer*)&observer1);
-    attachObserver(&subject, (Observer*)&observer2);
-
-    setState(&subject, 5);
-    setState(&subject, 10);
-
-    return 0;
-}
-```
 
 To compile and run this code:
 
