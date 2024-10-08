@@ -367,22 +367,6 @@ void setState(Subject* subject, int state) {
         subject->observers[i]->update(subject->observers[i], state);
     }
 }
-
-int main() {
-    Subject subject;
-    initSubject(&subject);
-
-    ConcreteObserver observer1 = {{concreteUpdate}, 1};
-    ConcreteObserver observer2 = {{concreteUpdate}, 2};
-
-    attachObserver(&subject, (Observer*)&observer1);
-    attachObserver(&subject, (Observer*)&observer2);
-
-    setState(&subject, 5);
-    setState(&subject, 10);
-
-    return 0;
-}
 ```
 
 To compile and run this code:
