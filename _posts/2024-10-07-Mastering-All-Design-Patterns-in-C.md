@@ -93,19 +93,9 @@ Key assembly instructions to note:
 * The `cmp` and `je` instructions in the `createProduct` function, which correspond to the if-else logic for product creation
 * The `mov` instructions for setting up function pointers (e.g., `product->base.operation = operationA;`)
 
-**Factory Pattern Flow**
+**Factory Pattern Flow** 
+![image](https://github.com/user-attachments/assets/f320af22-cf9b-471c-95d0-f8497970dfbd)
 
-```graphviz
-digraph factory_pattern {
-    rankdir=LR;
-    node [shape=box];
-    Client -> Factory [label="requests product"];
-    Factory -> "Concrete Product A" [label="creates"];
-    Factory -> "Concrete Product B" [label="creates"];
-    "Concrete Product A" -> Product [label="implements"];
-    "Concrete Product B" -> Product [label="implements"];
-}
-```
 
 ### 2. The Builder Pattern: Constructing Complex Objects Step by Step
 
@@ -208,17 +198,8 @@ Key assembly instructions to note:
 * The `lea` (Load Effective Address) instructions used in string operations
 
 **Builder Pattern Flow**
+![image](https://github.com/user-attachments/assets/f9ae16f8-182d-4537-b8c4-137a90a5c916)
 
-```graphviz
-digraph builder_pattern {
-    rankdir=LR;
-    node [shape=box];
-    Client -> Director [label="constructs"];
-    Director -> Builder [label="uses"];
-    Builder -> "Concrete Builder" [label="implements"];
-    "Concrete Builder" -> Product [label="produces"];
-}
-```
 
 ### 3. The Singleton Pattern: Ensuring a Single Instance
 
@@ -304,16 +285,8 @@ Key assembly instructions to note:
 * The `mov` instructions for accessing and modifying the singleton's value
 
 **Singleton Pattern Flow**
+![image](https://github.com/user-attachments/assets/d4078b94-0b31-424f-801b-1d46152cca09)
 
-```graphviz
-digraph singleton_pattern {
-    rankdir=TB;
-    node [shape=box];
-    Client -> Singleton [label="uses"];
-    Singleton -> "Static Instance" [label="creates/returns"];
-    "Static Instance" -> Singleton [label="is-a"];
-}
-```
 
 ### 4. The Observer Pattern: Implementing Event Handling
 
@@ -368,6 +341,24 @@ void setState(Subject* subject, int state) {
     }
 }
 ```
+and main function for this will be
+```
+int main() {
+    Subject subject;
+    initSubject(&subject);
+
+    ConcreteObserver observer1 = {{concreteUpdate}, 1};
+    ConcreteObserver observer2 = {{concreteUpdate}, 2};
+
+    attachObserver(&subject, (Observer*)&observer1);
+    attachObserver(&subject, (Observer*)&observer2);
+
+    setState(&subject, 5);
+    setState(&subject, 10);
+
+    return 0;
+}
+```
 
 To compile and run this code:
 
@@ -397,17 +388,8 @@ Key assembly instructions to note:
 * The loop structure in the `setState` function, which iterates through the observers
 
 **Observer Pattern Flow**
+![image](https://github.com/user-attachments/assets/6486cda5-2de8-4c49-87b0-9d0656c35fcc)
 
-```graphviz
-digraph observer_pattern {
-    rankdir=LR;
-    node [shape=box];
-    Subject -> "Observer 1" [label="notifies"];
-    Subject -> "Observer 2" [label="notifies"];
-    Subject -> "Observer N" [label="notifies"];
-    Client -> Subject [label="changes state"];
-}
-```
 
 ### 5. The Strategy Pattern: Encapsulating Algorithms
 
@@ -496,18 +478,8 @@ Key assembly instructions to note:
 * The indirect function calls through the strategy pointer in the `executeStrategy` function
 
 **Strategy Pattern Flow**
+![image](https://github.com/user-attachments/assets/0147965c-a855-414e-bbae-f5b4f3f769c6)
 
-```graphviz
-digraph strategy_pattern {
-    rankdir=TB;
-    node [shape=box];
-    Client -> Context [label="uses"];
-    Context -> Strategy [label="has a"];
-    Strategy -> "Concrete Strategy A" [label="implements"];
-    Strategy -> "Concrete Strategy B" [label="implements"];
-    Strategy -> "Concrete Strategy C" [label="implements"];
-}
-```
 
 ### 6. The Adapter Pattern: Bridging Incompatible Interfaces
 
@@ -591,16 +563,8 @@ Key assembly instructions to note:
 * The `malloc` call in the `createAdapter` function for dynamic memory allocation
 
 **Adapter Pattern Flow**
+![image](https://github.com/user-attachments/assets/42221530-ca1d-4cca-bc7f-225463c5f78d)
 
-```graphviz
-digraph adapter_pattern {
-    rankdir=LR;
-    node [shape=box];
-    Client -> Target [label="uses"];
-    Target -> Adapter [label="implements"];
-    Adapter -> Adaptee [label="calls"];
-}
-```
 
 ### 7. The Facade Pattern: Simplifying Complex Systems
 
@@ -698,17 +662,8 @@ Key assembly instructions to note:
 * The sequence of function calls in the `facadeOperation` function
 
 **Facade Pattern Flow**
+![image](https://github.com/user-attachments/assets/33b0d4a3-3d24-4a55-a414-efe5b5f47423)
 
-```graphviz
-digraph facade_pattern {
-    rankdir=TB;
-    node [shape=box];
-    Client -> Facade [label="uses"];
-    Facade -> Subsystem1 [label="uses"];
-    Facade -> Subsystem2 [label="uses"];
-    Facade -> SubsystemN [label="uses"];
-}
-```
 
 ### 8. The Iterator Pattern: Traversing Collections
 
@@ -799,18 +754,8 @@ Key assembly instructions to note:
 * The `cmp` and `jl` instructions in the `arrayIteratorHasNext` function for boundary checking
 
 **Iterator Pattern Flow**
+![image](https://github.com/user-attachments/assets/2bf88835-60a7-4519-afec-40d45407f0d8)
 
-```graphviz
-digraph iterator_pattern {
-    rankdir=LR;
-    node [shape=box];
-    Client -> "Aggregate Interface" [label="uses"];
-    "Aggregate Interface" -> "Concrete Aggregate" [label="implements"];
-    "Concrete Aggregate" -> "Iterator Interface" [label="creates"];
-    "Iterator Interface" -> "Concrete Iterator" [label="implements"];
-    Client -> "Iterator Interface" [label="uses"];
-}
-```
 
 ### Conclusion
 
@@ -833,10 +778,6 @@ Each pattern addresses specific design challenges:
 * **Structural patterns** like Adapter and Facade help in composing objects and classes into larger structures.
 * **Behavioral patterns** like Observer, Strategy, and Iterator define how objects interact and distribute responsibilities.
 
-By providing C implementations and discussing the assembly-level implications, we've aimed to give a comprehensive view of how these patterns work from high-level design to low-level execution.
-
 Remember, while design patterns are valuable tools, they should be applied judiciously. Over-engineering or forcing patterns where they're not needed can lead to unnecessary complexity. Always consider the specific needs of your project and use patterns where they provide clear benefits in terms of flexibility, maintainability, or scalability.
 
 As you continue your journey in software development, practice implementing these patterns in your projects. Experiment with different scenarios and see how they can improve your code's structure and readability. With time and experience, you'll develop an intuition for when and how to apply these patterns effectively.
-
-For further reading, consider exploring more advanced patterns or diving deeper into the low-level implications of these designs. Books like "Design Patterns: Elements of Reusable Object-Oriented Software" by the Gang of Four, or "Code Complete" by Steve McConnell, can provide additional insights into software design principles and practices. 
