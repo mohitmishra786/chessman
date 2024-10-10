@@ -219,6 +219,7 @@ plt.show()
 ```
 
 **Output:**
+![image](https://github.com/user-attachments/assets/06700f32-5524-4c84-9d89-fb8c2f06b289)
 
 This code snippet generates a directed graph illustrating the information flow in a basic RNN. It visually represents how the input at each time step, along with the hidden state from the previous step, is used to update the current hidden state and generate the output.
 
