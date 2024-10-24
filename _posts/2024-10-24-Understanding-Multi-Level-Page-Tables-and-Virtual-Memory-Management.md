@@ -18,6 +18,8 @@ layout: post
 
 Modern operating systems face a significant challenge in managing memory efficiently while providing isolation between processes. This blog post explores the elegant solution of multi-level page tables, diving deep into their implementation, practical applications, and performance implications.
 
+![image](https://github.com/user-attachments/assets/ce6fd44b-ed7b-41bd-88ce-6722bf2ef81a)
+
 ## The Challenge of Memory Management
 
 In a 64-bit system with a 48-bit virtual address space and 4KB pages, a single-level page table would require 512GB of memory per process - clearly impractical. Let's break down why:
@@ -291,31 +293,6 @@ To compile and run:
 ```bash
 gcc -o tlb_test tlb_test.c
 ./tlb_test
-```
-
-## Visual Representation
-
-Here's a Graphviz diagram showing the multi-level page table structure:
-
-```dot
-digraph MultilevelPageTable {
-    rankdir=LR;
-    node [shape=record];
-    
-    VA [label="Virtual Address|{VPN1|VPN2|Offset}"];
-    CR3 [label="CR3 Register"];
-    L1 [label="Level 1 Page Table|{Entry 0|Entry 1|...|Entry 511}"];
-    L2 [label="Level 2 Page Table|{Entry 0|Entry 1|...|Entry 511}"];
-    PPN [label="Physical Page Number"];
-    PA [label="Physical Address|{PPN|Offset}"];
-    
-    VA -> CR3 [label="Process Switch"];
-    CR3 -> L1;
-    L1 -> L2 [label="VPN1"];
-    L2 -> PPN [label="VPN2"];
-    VA:s -> PA:s [label="Offset" style=dashed];
-    PPN -> PA;
-}
 ```
 
 ## Further Reading
