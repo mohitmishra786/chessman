@@ -1,8 +1,6 @@
 ---
 layout: post
 ---
-# Understanding Binary, Hexadecimal, and Low-Level Computing: A Deep Dive
-
 ## Introduction
 
 In the realm of computing, understanding number systems and their representations is fundamental to mastering low-level programming and system architecture. This comprehensive guide explores the intricacies of binary and hexadecimal number systems, their practical applications, and their significance in modern computing. We'll dive deep into implementation details, provide practical code examples, and examine the underlying assembly code where relevant.
