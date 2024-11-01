@@ -1,4 +1,6 @@
-# Memory Security and Kernel Protections: A Deep Dive into Modern Defense Mechanisms
+---
+layout: post
+---
 
 ## Table of Contents
 1. [Introduction](#introduction)
