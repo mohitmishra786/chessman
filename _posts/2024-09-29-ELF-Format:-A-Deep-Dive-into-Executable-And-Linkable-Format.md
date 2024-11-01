@@ -1,6 +1,8 @@
 ---
 layout: post
 ---
+
+## Introduction
 The Executable and Linkable Format (ELF) is a standard file format for executable files, object code, shared libraries, and core dumps. Originally developed by Unix System Laboratories (USL) as part of the Application Binary Interface (ABI), ELF has become the de facto standard binary format for Unix and Unix-like systems, including Linux. In this comprehensive guide, we'll explore the intricacies of the ELF format, its structure, and its significance in modern computing.
 
 ## Understanding ELF: More Than Just Executables
