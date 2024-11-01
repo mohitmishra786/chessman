@@ -17,88 +17,8 @@ This unified approach simplifies the toolchain for compilers, linkers, and debug
 ## The Anatomy of an ELF File
 
 An ELF file consists of several key components, each serving a specific purpose in the overall structure. Let's break down these components and examine their roles:
+![image](https://github.com/user-attachments/assets/c2f093a2-e81a-4167-9e91-798a268662bd)
 
-```dot
-digraph ELF_Process {
-    rankdir=LR; // Left to Right flow for better readability of the main structure
-    node [shape=box, style="filled", fontname="Arial"];
-    edge [fontname="Arial", arrowhead=normal];
-
-    // Nodes
-    A [label="ELF File", fillcolor="#e6f3ff"];
-    B [label="ELF Header", fillcolor="#fff0f5"];
-    C [label="Program Header Table", fillcolor="#f0fff0"];
-    D [label="Section Header Table", fillcolor="#fff0f5"];
-    E [label="Data Sections", fillcolor="#f0fff0"];
-
-    // ELF Header details
-    B1 [label="Magic Number", fillcolor="#ffe6e6"];
-    B2 [label="File Class\n32/64-bit", fillcolor="#ffe6e6"];
-    B3 [label="Data Encoding", fillcolor="#ffe6e6"];
-    B4 [label="Version", fillcolor="#ffe6e6"];
-    B5 [label="OS/ABI", fillcolor="#ffe6e6"];
-    B6 [label="Entry Point", fillcolor="#ffe6e6"];
-
-    // Program Header Table details
-    C1 [label="Segment 1", fillcolor="#e6f3ff"];
-    C2 [label="Segment 2", fillcolor="#e6f3ff"];
-    C3 [label="Segment n", fillcolor="#e6f3ff"];
-
-    // Section Header Table details
-    D1 [label="Section 1", fillcolor="#e6f3ff"];
-    D2 [label="Section 2", fillcolor="#e6f3ff"];
-    D3 [label="Section n", fillcolor="#e6f3ff"];
-
-    // Data Sections
-    E1 [label=".text", fillcolor="#f0fff0"];
-    E2 [label=".data", fillcolor="#f0fff0"];
-    E3 [label=".bss", fillcolor="#f0fff0"];
-    E4 [label=".rodata", fillcolor="#f0fff0"];
-    E5 [label=".symtab", fillcolor="#f0fff0"];
-    E6 [label=".strtab", fillcolor="#f0fff0"];
-    E7 [label=".dynamic", fillcolor="#f0fff0"];
-
-    // Process Flow
-    F [label="Compilation", fillcolor="#fff0f5"];
-    G [label="Loading", fillcolor="#fff0f5"];
-    H [label="Dynamic Linking", fillcolor="#fff0f5"];
-    I [label="Relocation", fillcolor="#fff0f5"];
-    J [label="Execution", fillcolor="#e6f3ff"];
-
-    // Security Features
-    K [label="Security Features", fillcolor="#ffccaa"];
-    K1 [label="ASLR", fillcolor="#ffccaa"];
-    K2 [label="Stack Canaries", fillcolor="#ffccaa"];
-    K3 [label="RELRO", fillcolor="#ffccaa"];
-    K4 [label="NX Bit", fillcolor="#ffccaa"];
-
-    // Edges
-    A -> B;
-    A -> C;
-    A -> D;
-    A -> E;
-
-    B -> B1; B -> B2; B -> B3; B -> B4; B -> B5; B -> B6;
-    C -> C1; C -> C2; C -> C3;
-    D -> D1; D -> D2; D -> D3;
-    E -> E1; E -> E2; E -> E3; E -> E4; E -> E5; E -> E6; E -> E7;
-
-    F -> A;
-    A -> G;
-    G -> H;
-    H -> I;
-    I -> J;
-
-    G -> K;
-    K -> K1; K -> K2; K -> K3; K -> K4;
-    K -> J;
-
-    // Rank same statements for horizontal alignment if needed
-    {rank=same; A; F}
-    {rank=same; G; K}
-    {rank=same; E1; E2; E3; E4; E5; E6; E7}
-}
-```
 ### 1. ELF Header
 
 The ELF header is the starting point of any ELF file. It contains crucial metadata about the file, including:
