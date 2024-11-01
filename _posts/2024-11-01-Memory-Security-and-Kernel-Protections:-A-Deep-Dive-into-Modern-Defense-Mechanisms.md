@@ -10,7 +10,8 @@ layout: post
 5. [Memory Sealing: A New Approach](#memory-sealing-a-new-approach)
 6. [Practical Implementations](#practical-implementations)
 7. [Looking to the Future](#looking-to-the-future)
-8. [Technical Architecture](#technical-architecture)
+8. [References](#references)
+9. [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -261,7 +262,6 @@ The evolution of memory protection mechanisms continues to be a critical area of
 3. Improved runtime detection of exploitation attempts
 
 ## References
-
 1. The Linux Programming Interface: A System Programming Guide
 2. Intel® 64 and IA-32 Architectures Software Developer's Manual
 3. Computer Systems: A Programmer's Perspective
