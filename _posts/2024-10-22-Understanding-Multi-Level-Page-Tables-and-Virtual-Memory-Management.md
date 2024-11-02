@@ -28,6 +28,9 @@ In a 64-bit system with a 48-bit virtual address space and 4KB pages, a single-l
 - Page table entry size: 8 bytes
 - Total page table size: 2^36 * 8 = 512GB
 
+![image](https://github.com/user-attachments/assets/22add64a-93e8-47b0-bb35-9a5d2d85e33e)
+
+
 ## Multi-Level Page Tables: A Practical Solution
 
 Multi-level page tables solve this problem by breaking down the virtual address into multiple parts:
@@ -291,31 +294,6 @@ To compile and run:
 ```bash
 gcc -o tlb_test tlb_test.c
 ./tlb_test
-```
-
-## Visual Representation
-
-Here's a Graphviz diagram showing the multi-level page table structure:
-
-```dot
-digraph MultilevelPageTable {
-    rankdir=LR;
-    node [shape=record];
-    
-    VA [label="Virtual Address|{VPN1|VPN2|Offset}"];
-    CR3 [label="CR3 Register"];
-    L1 [label="Level 1 Page Table|{Entry 0|Entry 1|...|Entry 511}"];
-    L2 [label="Level 2 Page Table|{Entry 0|Entry 1|...|Entry 511}"];
-    PPN [label="Physical Page Number"];
-    PA [label="Physical Address|{PPN|Offset}"];
-    
-    VA -> CR3 [label="Process Switch"];
-    CR3 -> L1;
-    L1 -> L2 [label="VPN1"];
-    L2 -> PPN [label="VPN2"];
-    VA:s -> PA:s [label="Offset" style=dashed];
-    PPN -> PA;
-}
 ```
 
 ## Further Reading
