@@ -1,6 +1,24 @@
 ---
 layout: post
 --- 
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Understanding Memory Cleanup](#understanding-memory-cleanup)
+   - [Memory Cleanup at Program Termination](#memory-cleanup-at-program-termination)
+   - [Why Manual Cleanup is Still Important](#why-manual-cleanup-is-still-important)
+3. [Garbage Collection: Principles and Challenges](#garbage-collection-principles-and-challenges)
+   - [How Garbage Collection Works](#how-garbage-collection-works)
+   - [Reference Counting](#reference-counting)
+   - [Challenges in C/C++](#challenges-in-cc)
+4. [Memory Management Techniques in C/C++](#memory-management-techniques-in-cc)
+   - [Manual Memory Management](#manual-memory-management)
+   - [Smart Pointers](#smart-pointers)
+   - [Custom Allocators](#custom-allocators)
+5. [Low-Level Analysis: Assembly and Memory Layout](#low-level-analysis-assembly-and-memory-layout)
+6. [Conclusion](#conclusion)
+
+### Introduction
+
 Memory management is a crucial aspect of programming, especially in languages like C and C++ that provide low-level control over system resources. In this post, we'll explore the intricacies of memory management, discuss why garbage collection isn't typically used in C/C++, and delve into alternative approaches for efficient memory handling.
 
 ### Understanding Memory Cleanup
