@@ -4,15 +4,24 @@ layout: post
 Socket programming is a fundamental aspect of network programming that allows applications to communicate over a network. In this comprehensive guide, we'll dive deep into the world of socket programming in C, exploring its concepts, API calls, and practical implementations. Whether you're a beginner or looking to refresh your knowledge, this post will provide you with a solid foundation in socket programming.
 
 ## Table of Contents
-
 1. [Introduction to Socket Programming](#introduction-to-socket-programming)
 2. [The Socket API](#the-socket-api)
 3. [Client-Side Socket Programming](#client-side-socket-programming)
 4. [Server-Side Socket Programming](#server-side-socket-programming)
 5. [Common Socket Operations](#common-socket-operations)
+   - [Handling Partial Sends and Receives](#handling-partial-sends-and-receives)
+   - [Non-blocking I/O](#non-blocking-io)
+   - [Handling Multiple Connections](#handling-multiple-connections)
 6. [Error Handling and Best Practices](#error-handling-and-best-practices)
 7. [Practical Examples](#practical-examples)
-8. [Conclusion](#conclusion)
+8. [Advanced Topics in Socket Programming](#advanced-topics-in-socket-programming)
+   - [IPv6 Support](#ipv6-support)
+   - [Asynchronous I/O](#asynchronous-io)
+   - [Unix Domain Sockets](#unix-domain-sockets)
+   - [Socket Options](#socket-options)
+9. [Debugging Socket Programs](#debugging-socket-programs)
+10. [Security Considerations](#security-considerations)
+11. [Conclusion](#conclusion)
 
 ## Introduction to Socket Programming
 
