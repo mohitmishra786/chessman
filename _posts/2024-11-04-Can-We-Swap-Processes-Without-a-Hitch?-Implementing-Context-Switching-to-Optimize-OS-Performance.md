@@ -918,6 +918,57 @@ void update_context_switch_stats(struct process_control_block *prev,
     update_tlb_stats();
 }
 ```
+## Further Reading
+### Books
+
+1. **Modern Operating Systems** by Andrew S. Tanenbaum and Herbert Bos
+   - [Amazon Link](https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X)
+
+2. **Operating System Concepts** by Abraham Silberschatz, Peter B. Galvin, and Greg Gagne
+   - [Amazon Link](https://www.amazon.com/Operating-System-Concepts-Abraham-Silberschatz/dp/1119456339)
+
+3. **The Design of the UNIX Operating System** by Maurice J. Bach
+   - [Amazon Link](https://www.amazon.com/Design-UNIX-Operating-System/dp/0132017997)
+
+4. **Operating Systems: Internals and Design Principles** by William Stallings
+   - [Amazon Link](https://www.amazon.com/Operating-Systems-Internals-Design-Principles/dp/0134670957)
+
+5. **Linux Kernel Development** by Robert Love
+   - [Amazon Link](https://www.amazon.com/Linux-Kernel-Development-Robert-Love/dp/0672329468)
+
+### YouTube Playlists
+
+1. **Linux Operating System Tutorials** by ProgrammingKnowledge
+   - [YouTube Link](https://www.youtube.com/playlist?list=PLZ66CyB1h160X8_1eZGsW4P14RqI_kZ-)
+
+2. **Operating Systems (OS) Playlist** by Neso Academy
+   - [YouTube Link](https://www.youtube.com/playlist?list=PLE7DDD91010BD588B)
+
+3. **CS 162: Operating Systems and Systems Programming** by UC Berkeley CS
+   - [YouTube Link](https://youtube.com/playlist?list=PLF2K2xZjNEf97A_uBCwEl61sdxWVP7VWC&si=d6v0Ojivm6zWDF83)
+
+4. **OS Concepts and Design** by Gate Lectures by Ravindrababu Ravula
+   - [YouTube Link](https://www.youtube.com/playlist?list=PLXXV6p_49jVmqW846O32VLwH9b04XzMnG)
+
+5. **Operating System Fundamentals** by CS Dojo
+   - [YouTube Link](https://www.youtube.com/playlist?list=PLBZBJbE_rGRVnpitdvpdY9952IsKMDNO-)
+
+### Research Papers
+
+1. **"The Multics Virtual Memory: Concepts and Design"** by Robert C. Daley and Jack B. Dennis
+   - [ACM Digital Library Link](https://dl.acm.org/doi/10.1145/362969.362976)
+
+2. **"Lottery Scheduling: Flexible Proportional-Share Resource Management"** by Carl A Waldspurger and William E. Weihl
+   - [ResearchGate Link](https://www.researchgate.net/publication/2412153_Lottery_Scheduling_Flexible_Proportional-Share_Resource_Management)
+
+3. **"A Comparison of Scheduling Algorithms for Multiprogramming in a Hard-Real-Time Environment"** by Liu, Chung Laung, and James W. Layland
+   - [IEEE Xplore Link](https://ieeexplore.ieee.org/document/1087666)
+
+4. **"The Linux Scheduler: a Decade of Wasted Cores"** by Con Kolivas
+   - [PDF Link](http://ck.kolivas.org/patches/bfs/scheduler.pdf)
+
+5. **"Scheduling Algorithms for Multiprogramming in a Hard-Real-Time Environment"** by Liu, Chung Laung, and James W. Layland
+   - [Semantic Scholar Link](https://www.semanticscholar.org/paper/Scheduling-algorithms-for-multiprogramming-in-a-Liu-Layland/04234f0f306b632d99c2928b11d07ad65c15b257)
 
 ## 13. Conclusion
 
