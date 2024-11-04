@@ -364,7 +364,6 @@ Here's a simple example using `select()` to handle multiple clients:
 #define MAX_CLIENTS 10
 
 int main() {
-    // ... (setup server socket as before)
 
     int client_sockets[MAX_CLIENTS] = {0};
     fd_set readfds;
@@ -402,7 +401,6 @@ int main() {
         }
     }
 
-    // ...
 }
 ```
 
