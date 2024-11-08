@@ -7,17 +7,19 @@ layout: default
         <title>{{ site.author }}</title>
     </head>
     <div class="post-back">
-        <a class="black-link" href="{{ site.url | relative_url }}">
+        <a class="black-link" href="{{ '/' | relative_url }}">
             ← {{ site.moving.back_to }}
         </a>
     </div>
     <div class="about-header">
         {%- if site.moving.avatar_url -%}
         <img class="about-avatar" src="{{ site.moving.avatar_url }}" />
-        {%- endif -%} {%- if site.author -%}
+        {%- endif -%}
+        {%- if site.author -%}
         <div class="about-info">
             <div class="about-your-name">{{ site.author | escape }}</div>
-            {%- endif -%} {%- if site.moving.about_you -%}
+            {%- endif -%}
+            {%- if site.moving.about_you -%}
             <p class="about-description">
                 {{ site.moving.about_you | escape }}
             </p>
@@ -25,7 +27,7 @@ layout: default
             <div class="social-and-blog-links">
                 {%- include social.html -%}
                 <a
-                    href="https://mohitmishra786.github.io/UnderTheHood/"
+                    href="{{ '/UnderTheHood/' | relative_url }}"  <! -- Corrected Relative URL -->
                     class="archive-link"
                     >Deep Dives</a
                 >
