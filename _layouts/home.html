@@ -19,22 +19,17 @@ layout: default
         {% if forloop.first %}
         <h2 id="{{ this_year }}-ref" class="post-year">{{this_year}}</h2>
         <ul>
-            {% endif %}
+        {% endif %}
 
-            <li>
-                {%- assign date_format = site.moving.date_format | default: "%b %-d, %Y" -%}
-                <span class="post-meta">
-                    {{ post.date | date: date_format }}
-                </span>
-                <a
-                    class="black-link post-link-layout"
-                    href="{{ post.url | relative_url }}"
-                >
-                    {{ post.title | escape }}
-                </a>
-            </li>
+        <li>
+            {%- assign date_format = site.moving.date_format | default: "%b %-d, %Y" -%}
+            <span class="post-meta">{{ post.date | date: date_format }}</span>
+            <a class="black-link post-link-layout" href="{{ post.url | relative_url }}">
+                {{ post.title | escape }}
+            </a>
+        </li>
 
-            {% if forloop.last %}
+        {% if forloop.last %}
         </ul>
         {% else %}
         {% if this_year != next_year %}
