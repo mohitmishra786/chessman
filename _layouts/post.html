@@ -20,7 +20,7 @@ layout: default
     </head>
     <header class="post-header">
         <div class="post-back">
-            <a class="black-link" href="{{ site.url | relative_url }}">
+            <a class="black-link" href="{{ '/' | relative_url }}">
                 ← {{ site.moving.back_to }}
             </a>
         </div>
@@ -33,18 +33,14 @@ layout: default
                 datetime="{{ page.date | date_to_xmlschema }}"
                 itemprop="datePublished"
             >
-                {%- assign date_format = "%b %-d, %Y" -%} {{ page.date | date:
-                date_format }}
+                {%- assign date_format = "%b %-d, %Y" -%} {{ page.date | date: date_format }}
             </time>
             {%- if page.author -%} •
             <span
                 itemprop="author"
                 itemscope
                 itemtype="http://schema.org/Person"
-                ><span class="p-author h-card" itemprop="name"
-                    >{{ page.author | escape }}</span
-                ></span
-            >
+            ><span class="p-author h-card" itemprop="name">{{ page.author | escape }}</span></span>
             {%- endif -%}
         </p>
     </header>
@@ -53,10 +49,7 @@ layout: default
         <script>
             function d3ize(elem) {
                 var par = elem.parentElement;
-                d3.select(par)
-                    .append("div")
-                    .graphviz()
-                    .renderDot(elem.innerText);
+                d3.select(par).append("div").graphviz().renderDot(elem.innerText);
                 d3.select(elem).style("display", "none");
             }
             var dotelems = document.getElementsByClassName("language-dot");
