@@ -1,7 +1,8 @@
 title: Mohit Mishra # The title of the blog
 author: Mohit Mishra # Your name
 email: immadmohit@gmail.com # your email shown in the footer
-url: https://mohitmishra786.github.io # this is your site's root address.
+url: https://mohitmishra786.github.io # No trailing slash here
+baseurl: "/chessman"  # The subdirectory your site is deployed to
 description: > # this means to ignore newlines until "show_excerpts:"
   Learning to Learn.
 favicon: "./favicon.ico" # set the favicon of the site
