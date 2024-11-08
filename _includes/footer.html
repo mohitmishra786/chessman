@@ -1,21 +1,27 @@
+{% raw %}
 <footer class="site-footer h-card">
-  <data class="u-url" href="{{ '/' | relative_url }}"></data> <! -- Corrected if used -->
+  <data class="u-url" href="{{ '/' | relative_url }}"></data>
 
   <div class="wrapper">
     <div class="footer-col-wrapper">
       <div class="footer-col one-half">
-          {%- if site.moving.since -%}
-              <p>© {{ site.moving.since | escape }} - {{ 'now' | date: '%Y' }} {{ site.author | escape }}</p>
-          {%- else -%}
-              <p>© {{ 'now' | date: '%Y' }} {{ site.author | escape }}</p>
-          {%- endif -%}
+        {%- if site.moving.since -%}
+        <p>© {{ site.moving.since | escape }} - {{ 'now' | date: '%Y' }} {{ site.author | escape }}</p>
+        {%- else -%}
+        <p>© {{ 'now' | date: '%Y' }} {{ site.author | escape }}</p>
+        {%- endif -%}
+        <p><a class="black-link" href="mailto:{{ site.email }}">{{ site.email }}</a></p> <! -- Email link -->
       </div>
 
       <div class="footer-col one-half">
         <p class="text">{{ site.description | escape }}</p>
+        <nav> <! -- Navigation within the footer -->
+            <a href="{{ '/' | relative_url }}">Home</a>
+            <a href="{{ '/about/' | relative_url }}">About</a>  <! -- Corrected "About" link -->
+            <! -- ... Other navigation links ... -->
+        </nav>
       </div>
     </div>
-
   </div>
-
 </footer>
+{% endraw %}
