@@ -50,12 +50,12 @@ plugins:
   - jekyll-seo-tag
 
 # Include _upvotes directory for upvote functionality
-include:
-  - _upvotes
+# include:
+#   - _upvotes
 
 # GitHub repository name for upvote functionality
 # repository: mohitmishra786/chessman
 
-github:
-  owner_name: mohitmishra786
-  repository_name: chessman
+# github:
+#   owner_name: mohitmishra786
+#   repository_name: chessman
