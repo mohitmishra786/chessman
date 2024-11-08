@@ -54,7 +54,7 @@ include:
   - _upvotes
 
 # GitHub repository name for upvote functionality
-repository: mohitmishra786/chessman
+# repository: mohitmishra786/chessman
 
 github:
   owner_name: mohitmishra786
