@@ -372,7 +372,7 @@ As we've seen in our simple shell implementation, these concepts come together t
 
 ## Flow Diagram
 
-To visualize the relationship between file descriptors, the open file table, and v-nodes, here's a diagram:
+To understand the relationship between file descriptors, the open file table, and v-nodes, here's a diagram:
 ```dot
 digraph file_system_management {
     rankdir=LR; // Set direction from left to right
