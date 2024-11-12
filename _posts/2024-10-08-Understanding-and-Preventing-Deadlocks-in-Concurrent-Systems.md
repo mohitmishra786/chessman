@@ -1,15 +1,29 @@
 ---
 layout: post
 ---
-**Introduction**
+
+## Table of Contents
+1.[Introduction](#introduction)
+2.[Understanding Deadlocks](#understanding-deadlocks)
+   -[The Four Conditions for Deadlock](#the-four-conditions-for-deadlock)
+3.[Demonstrating Deadlock with C Code](#demonstrating-deadlock-with-c-code)
+4.[Analyzing the Assembly Code](#analyzing-the-assembly-code)
+5.[Explaining the Deadlock](#explaining-the-deadlock)
+6.[Preventing Deadlocks](#preventing-deadlocks)
+   -[Implementing a Deadlock Prevention Strategy](#implementing-a-deadlock-prevention-strategy)
+7.[Deadlocks in Distributed Systems](#deadlocks-in-distributed-systems)
+8.[Real-world Analogies](#real-world-analogies)
+9.[Conclusion](#conclusion)
+
+## Introduction
 
 In the world of concurrent programming, deadlocks remain one of the most challenging and insidious issues developers face. A deadlock occurs when two or more threads or processes are unable to make progress because each is waiting for the other to release a resource. This blog post will delve deep into the concept of deadlocks, exploring their causes, demonstrating them through practical examples, and discussing strategies to prevent and resolve them.
 
-**Understanding Deadlocks**
+## Understanding Deadlocks
 
 A deadlock is a situation in concurrent computing where two or more competing actions are each waiting for the other to finish, resulting in neither ever completing. This standstill can occur in various contexts, from multi-threaded applications to distributed systems, and even in real-world scenarios like traffic jams.
 
-**The Four Conditions for Deadlock**
+### The Four Conditions for Deadlock
 
 For a deadlock to occur, four conditions must be simultaneously met:
 
@@ -20,7 +34,7 @@ For a deadlock to occur, four conditions must be simultaneously met:
 
 ![image](https://github.com/user-attachments/assets/7e52cac9-d5b2-4baa-bd8c-a5ea549d43f4)
 
-**Demonstrating Deadlock with C Code**
+## Demonstrating Deadlock with C Code
 
 Let's examine a simple C program that demonstrates a classic deadlock scenario:
 
@@ -81,7 +95,7 @@ int main() {
 
 **Expected behavior:** The program will likely enter a deadlock state almost immediately. You may see a few prints from either Python or C, or none at all, before the program hangs indefinitely.
 
-**Analyzing the Assembly Code**
+## Analyzing the Assembly Code
 
 To view the assembly code generated from this C program, you can use the following command:
 
@@ -98,7 +112,7 @@ This will create a file named `deadlock.s` containing the assembly code. Key ass
 
 Understanding these assembly instructions can provide insights into how the compiler translates our high-level C code into low-level machine instructions, particularly in the context of thread creation and synchronization.
 
-**Explaining the Deadlock**
+## Explaining the Deadlock
 
 In this example, we have two threads, Python and C, each trying to acquire two locks (`mutex_x` and `mutex_y`) in a different order:
 
@@ -119,7 +133,7 @@ This situation satisfies all four conditions for a deadlock:
 * **No Preemption:** Neither thread can forcibly take the lock from the other.
 * **Circular Wait:** Python is waiting for a resource C holds, and vice versa.
 
-**Preventing Deadlocks**
+## Preventing Deadlocks
 
 Several strategies can be employed to prevent deadlocks:
 
@@ -193,7 +207,7 @@ In this modified version, both threads acquire the locks in the same order (`mut
 
 **Expected output:** The program will run indefinitely, alternating between "Python: I have both locks!" and "C: I have both locks!" prints.
 
-**Deadlocks in Distributed Systems**
+## Deadlocks in Distributed Systems
 
 Deadlocks are not limited to multi-threaded applications on a single machine. They can also occur in distributed systems, where resources are spread across multiple nodes or services. In such scenarios, detecting and resolving deadlocks becomes even more challenging due to the lack of a global state and potential communication delays.
 
@@ -210,7 +224,7 @@ To prevent such situations in distributed systems, strategies like:
 
 Implementing a simple distributed lock manager in C is beyond the scope of this blog post, but it's an interesting area for further exploration.
 
-**Real-world Analogies**
+## Real-world Analogies
 
 Deadlocks are not just a computer science concept; they occur in real-world scenarios too. A classic example is a traffic gridlock:
 
@@ -227,7 +241,7 @@ This situation mirrors our four conditions for deadlock:
 
 Understanding these real-world analogies can help in grasping the concept of deadlocks in computer systems.
 
-**Conclusion**
+## Conclusion
 
 Deadlocks remain a significant challenge in concurrent and distributed systems. By understanding their causes and implementing preventive strategies, developers can create more robust and reliable software. Remember, the key to avoiding deadlocks lies in careful design, consistent lock ordering, and when possible, using higher-level concurrency constructs that manage locking for you.
 
