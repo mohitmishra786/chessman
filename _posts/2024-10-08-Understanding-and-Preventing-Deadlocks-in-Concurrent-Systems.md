@@ -3,17 +3,22 @@ layout: post
 ---
 
 ## Table of Contents
-1.[Introduction](#introduction)
-2.[Understanding Deadlocks](#understanding-deadlocks)
-   -[The Four Conditions for Deadlock](#the-four-conditions-for-deadlock)
-3.[Demonstrating Deadlock with C Code](#demonstrating-deadlock-with-c-code)
-4.[Analyzing the Assembly Code](#analyzing-the-assembly-code)
-5.[Explaining the Deadlock](#explaining-the-deadlock)
-6.[Preventing Deadlocks](#preventing-deadlocks)
-   -[Implementing a Deadlock Prevention Strategy](#implementing-a-deadlock-prevention-strategy)
-7.[Deadlocks in Distributed Systems](#deadlocks-in-distributed-systems)
-8.[Real-world Analogies](#real-world-analogies)
-9.[Conclusion](#conclusion)
+
+1. [Introduction](#introduction)
+2. [Understanding Deadlocks](#understanding-deadlocks)
+    * [The Four Conditions for Deadlock](#the-four-conditions-for-deadlock)
+3. [Demonstrating Deadlock with C Code](#demonstrating-deadlock-with-c-code)
+    * [Compiling and Running the Code](#compiling-and-running-the-code)
+4. [Analyzing the Assembly Code](#analyzing-the-assembly-code)
+5. [Explaining the Deadlock](#explaining-the-deadlock)
+6. [Preventing Deadlocks](#preventing-deadlocks)
+    * [Implementing a Deadlock Prevention Strategy](#implementing-a-deadlock-prevention-strategy)
+        * [Compiling and Running the Prevention Code](#compiling-and-running-the-prevention-code)
+7. [Deadlocks in Distributed Systems](#deadlocks-in-distributed-systems)
+8. [Real-world Analogies](#real-world-analogies)
+9. [Conclusion](#conclusion)
+
+---
 
 ## Introduction
 
