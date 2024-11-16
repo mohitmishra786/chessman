@@ -18,21 +18,7 @@ In modern computing, understanding the distinction between processes and threads
 
 ## Core Concepts: Processes vs Threads
 
-```mermaid
-graph TD
-    A[Program Binary] -->|Execute| B[Process Creation]
-    B -->|Fork| C[Child Process]
-    B -->|Thread Create| D[Thread Pool]
-    D -->|Spawn| E[Worker Thread 1]
-    D -->|Spawn| F[Worker Thread 2]
-    D -->|Spawn| G[Worker Thread N]
-    E -->|Execute| H[Task Queue]
-    F -->|Execute| H
-    G -->|Execute| H
-    H -->|Complete| I[Results]
-    I -->|Join| J[Main Thread]
-    J -->|Exit| K[Process Termination]
-```
+[![](https://mermaid.ink/img/pako:eNptkU1vgzAMhv9KlHN72I49VBpfbZk2dSvSpIUeInBLVEhQSLRVpf99BsKkInKKXz92HL83mqkc6IqeNa8LkgSpJHhe2F4rlCriCcn19UiWy3Ub_kJmDbTE69IZNA3xNXAjlDwOdV7PRUpfWuIzvxBlThz6QCQF1uVDNfYLmBP2SpUODHrwUPMf2ZKQfWFP0MRxT3NQNIGe56DNBHp3UPj4wy1LeHMhHxYsOCKaEIO6mVW3veqrqi6hk3fsExpbmnELuz4fK4ETxeyNC-nmcfnYdRWmJa__y05AV2hHv2-6oBWGXORo3q2rSqkpoIKUrvCaw4njeylN5R1Rbo06XGVGV0ZbWFCt7LkYA1vn6EIgeGf4KNZcfiuF4YmXDdz_AC9BtAE?type=png)](https://mermaid.live/edit#pako:eNptkU1vgzAMhv9KlHN72I49VBpfbZk2dSvSpIUeInBLVEhQSLRVpf99BsKkInKKXz92HL83mqkc6IqeNa8LkgSpJHhe2F4rlCriCcn19UiWy3Ub_kJmDbTE69IZNA3xNXAjlDwOdV7PRUpfWuIzvxBlThz6QCQF1uVDNfYLmBP2SpUODHrwUPMf2ZKQfWFP0MRxT3NQNIGe56DNBHp3UPj4wy1LeHMhHxYsOCKaEIO6mVW3veqrqi6hk3fsExpbmnELuz4fK4ETxeyNC-nmcfnYdRWmJa__y05AV2hHv2-6oBWGXORo3q2rSqkpoIKUrvCaw4njeylN5R1Rbo06XGVGV0ZbWFCt7LkYA1vn6EIgeGf4KNZcfiuF4YmXDdz_AC9BtAE)
 
 ### Process Architecture
 A process represents a program in execution - the transformation of static code into a dynamic entity. When examining process architecture, several key components come into play:
