@@ -11,7 +11,6 @@ layout: post
 - [Technical Implementation](#technical-implementation)
 - [Performance Analysis](#performance-analysis)
 - [Code Examples](#code-examples)
-- [System Architecture Diagrams](#system-architecture-diagrams)
 - [Future Improvements](#future-improvements)
 - [Conclusion](#conclusion)
 - [References & Further Reading](#references--further-reading)
