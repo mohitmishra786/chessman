@@ -2,10 +2,6 @@
 layout: post
 ---
 
-# Intel Processor Architecture Evolution: From 8080 to Pentium 4
-
-This document explores the architectural evolution of Intel processors, from the early 8080 to the Pentium 4, highlighting key features and advancements in each generation.
-
 **Table of Contents**
 
 * [Intel 8080 Architecture](#intel-8080-architecture)
