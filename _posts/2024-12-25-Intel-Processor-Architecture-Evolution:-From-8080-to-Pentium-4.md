@@ -102,6 +102,7 @@ The EU focuses on computation:
 
 ## Intel 80286 Architecture <a name="intel-80286-architecture"></a>
 ![Intel 80286 Architecture Diagram]({{ '/assets/images/80286.jpg' | relative_url }})
+
 The Intel 80286 processor advances the design with three main units: the Address Unit, Execution Unit, and Instruction Unit, enhancing performance and introducing protected mode capabilities.
 
 ### Address Unit and Memory Management
@@ -186,6 +187,7 @@ The Intel 80386 marks a significant step forward as a 32-bit microprocessor, int
 
 ## Intel 80486 Architecture <a name="intel-80486-architecture"></a>
 ![Intel 80486 Architecture Diagram]({{ '/assets/images/80486.jpg' | relative_url }})
+
 The Intel 80486 processor signifies a leap in integration by combining an on-chip Floating Point Unit (FPU) and cache memory, alongside multiple data buses.
 
 ### Execution and Processing Units
@@ -231,6 +233,7 @@ The Intel 80486 processor signifies a leap in integration by combining an on-chi
 
 ## Intel Pentium Processor Architecture <a name="intel-pentium-processor-architecture"></a>
 ![Intel Pentium Architecture Diagram]({{ '/assets/images/pentium.jpg' | relative_url }})
+
 The Intel Pentium processor introduces a dual pipeline design, enhancing performance through superscalar architecture with both 32-bit and 64-bit data paths.
 
 ### Instruction Processing and Branch Prediction
@@ -274,6 +277,7 @@ The Intel Pentium processor introduces a dual pipeline design, enhancing perform
 
 ## P6 (Intel Pentium Pro) Processor Architecture <a name="p6-intel-pentium-pro-processor-architecture"></a>
 ![P6 Architecture Diagram]({{ '/assets/images/pentiumpro.png' | relative_url }})
+
 The P6 architecture by Intel is notable for its complex pipeline design, enhancing processor performance through various innovative features.
 
 ### Instruction Processing and Fetch Unit
@@ -311,6 +315,7 @@ The P6 architecture by Intel is notable for its complex pipeline design, enhanci
 
 ## Intel Pentium III Processor Architecture <a name="intel-pentium-iii-processor-architecture"></a>
 ![Pentium III Architecture Diagram]({{ '/assets/images/pentium3.jpeg' | relative_url }})
+
 The Pentium III processor builds upon the P6 architecture with several key enhancements:
 
 * **Caches:**  16 KB instruction cache and 16 KB data cache, both 4-way set associative.
@@ -320,6 +325,7 @@ The Pentium III processor builds upon the P6 architecture with several key enhan
 
 ## Intel Pentium 4 Processor Architecture <a name="intel-pentium-4-processor-architecture"></a>
 ![Pentium 4 Architecture Diagram]({{ '/assets/images/pentium4.png' | relative_url }})
+
 The Pentium 4 processor introduces several advancements in instruction handling and execution efficiency.
 
 ### Front-End and Instruction Processing
