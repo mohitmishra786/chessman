@@ -20,7 +20,7 @@ This document explores the architectural evolution of Intel processors, from the
 
 
 ## Intel 8080 Architecture <a name="intel-8080-architecture"></a>
-![Intel 8080 Architecture Diagram](/assets/images/8080.jpg)
+![Intel 8080 Architecture Diagram]({{ '/assets/images/8080.jpg' | relative_url }})
 
 The Intel 8080 is an 8-bit microprocessor with a core architecture featuring an 8-bit internal data bus. It connects to the external environment through a bidirectional data bus (D0-D7) managed by a Data Bus Buffer/Latch.
 
