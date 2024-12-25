@@ -29,7 +29,7 @@ The Intel 8080 is an 8-bit microprocessor with a core architecture featuring an 
 *   The 8-bit bidirectional data bus allows for the transfer of data between the processor and external devices.
 *   Bus Buffer/Latch: Ensures stable data handling between the internal and external buses.
 
-## Processing and Control Mechanisms
+### Processing and Control Mechanisms
 
 The processing capabilities are powered by an Arithmetic Logic Unit (ALU), which performs arithmetic and logical operations with the help of:
 
@@ -47,7 +47,7 @@ The processing capabilities are powered by an Arithmetic Logic Unit (ALU), which
 *   DMA Support: The Hold/Hold Acknowledge mechanism allows other devices to control the bus for direct memory access.
 *   Wait/Ready Signals: Adjust processor speed to match slower memory or I/O devices.
 
-## Memory and Instruction Handling
+### Memory and Instruction Handling
 
 Memory and instruction handling involve:
 
@@ -57,7 +57,7 @@ Memory and instruction handling involve:
 *   Multiplexer: Routes data between various registers like the stack pointer and program counter.
 *   Address Buffer: Manages the 16-bit address bus, enabling access to 64K of memory.
 
-## Register Set
+### Register Set
 
 The register set includes:
 
@@ -66,7 +66,7 @@ The register set includes:
 *   Program Counter: Keeps track of the next instruction to execute.
 
 ## Intel 8086 Architecture <a name="intel-8086-architecture"></a>
-![Intel 8086 Architecture Diagram](/assets/images/8086.png)
+![Intel 8086 Architecture Diagram]({{ '/assets/images/8086.png' | relative_url }})
 
 The Intel 8086 microprocessor splits its functionality into the Execution Unit (EU) and Bus Interface Unit (BIU):
 
@@ -74,7 +74,7 @@ The Intel 8086 microprocessor splits its functionality into the Execution Unit (
 
 *   The EU includes four main 16-bit registers (AX, BX, CX, DX), each split into two 8-bit registers (AH/AL, BH/BL, CH/CL, DH/DL), providing flexibility for both 8-bit and 16-bit operations.
 
-## Bus Interface Unit (BIU)
+### Bus Interface Unit (BIU)
 
 The BIU manages external interactions:
 
@@ -85,7 +85,7 @@ The BIU manages external interactions:
 *   Instruction Queue: A 6-byte queue prefetches instructions, enabling basic pipelining for improved performance.
 
 
-## Execution Unit (EU)
+### Execution Unit (EU)
 
 The EU focuses on computation:
 
@@ -95,7 +95,7 @@ The EU focuses on computation:
 *   Independence: The EU can work on instructions from the queue while the BIU fetches new ones, enhancing efficiency.
 
 
-## Control and Memory Management
+### Control and Memory Management
 
 *   Control Coordination: The Q-Bus links the EU and BIU, managing the flow of instructions and data.
 *   Bus Control: Logic that oversees external bus operations for data transfer.
@@ -105,10 +105,10 @@ The EU focuses on computation:
 
 
 ## Intel 80286 Architecture <a name="intel-80286-architecture"></a>
-![Intel 80286 Architecture Diagram](/assets/images/80286.jpg)
+![Intel 80286 Architecture Diagram]({{ '/assets/images/80286.jpg' | relative_url }})
 The Intel 80286 processor advances the design with three main units: the Address Unit, Execution Unit, and Instruction Unit, enhancing performance and introducing protected mode capabilities.
 
-## Address Unit and Memory Management
+### Address Unit and Memory Management
 
 **Memory Management:**
 
@@ -117,7 +117,7 @@ The Intel 80286 processor advances the design with three main units: the Address
 *   Physical Address Adder: Generates 24-bit physical addresses by combining segment and offset, supporting up to 16MB of memory.
 
 
-## Execution and Processing Components
+### Execution and Processing Components
 
 **Execution Unit:**
 
@@ -126,7 +126,7 @@ The Intel 80286 processor advances the design with three main units: the Address
 *   Control Logic: Manages the sequence of operations within the processor.
 
 
-## Instruction Processing and Bus Interface
+### Instruction Processing and Bus Interface
 
 **Instruction Unit:**
 
@@ -136,7 +136,7 @@ The Intel 80286 processor advances the design with three main units: the Address
 *   Processor Extension Interface: Facilitates the use of coprocessors for enhanced functionality.
 
 
-## System Interface and Control
+### System Interface and Control
 
 **Bus Unit:**
 
@@ -146,11 +146,11 @@ The Intel 80286 processor advances the design with three main units: the Address
 This architecture not only increased the addressable memory but also introduced protected mode, which was a significant leap forward in CPU design, allowing for better multitasking and system security.
 
 ## Intel 80386 Architecture <a name="intel-80386-architecture"></a>
-![Intel 80386 Architecture Diagram](/assets/images/80386.jpg)
+![Intel 80386 Architecture Diagram]({{ '/assets/images/80386.jpg' | relative_url }})
 
 The Intel 80386 marks a significant step forward as a 32-bit microprocessor, introducing features like paging and an enhanced protected mode.
 
-## Memory Management and Protection
+### Memory Management and Protection
 
 **Memory Management Unit (MMU):**
 
@@ -160,7 +160,7 @@ The Intel 80386 marks a significant step forward as a 32-bit microprocessor, int
 *   Protection Test Unit: Ensures that memory access adheres to the protection rules set by the operating system.
 
 
-## Execution Pipeline and Processing
+### Execution Pipeline and Processing
 
 **Execution Unit:**
 
@@ -170,7 +170,7 @@ The Intel 80386 marks a significant step forward as a 32-bit microprocessor, int
 *   Control ROM: Contains microcode for complex instruction execution.
 *   Decode and Sequencing: Manages instruction decoding and the sequence of execution.
 
-## Instruction Processing and Prefetch
+### Instruction Processing and Prefetch
 
 **Instruction Handling:**
 
@@ -179,7 +179,7 @@ The Intel 80386 marks a significant step forward as a 32-bit microprocessor, int
 *   16-byte Code Queue: Ensures a continuous supply of instructions, reducing wait times.
 
 
-## Bus Interface and External Communication
+### Bus Interface and External Communication
 
 **Bus Interface Unit (BIU):**
 
@@ -189,11 +189,10 @@ The Intel 80386 marks a significant step forward as a 32-bit microprocessor, int
 
 
 ## Intel 80486 Architecture <a name="intel-80486-architecture"></a>
-![Intel 80486 Architecture Diagram](/assets/images/80486.jpg)
-
+![Intel 80486 Architecture Diagram]({{ '/assets/images/80486.jpg' | relative_url }})
 The Intel 80486 processor signifies a leap in integration by combining an on-chip Floating Point Unit (FPU) and cache memory, alongside multiple data buses.
 
-## Execution and Processing Units
+### Execution and Processing Units
 
 **Core Components:**
 
@@ -203,7 +202,7 @@ The Intel 80486 processor signifies a leap in integration by combining an on-chi
 *   Control and Protection Test Unit: Ensures correct operation and enforces security measures.
 
 
-## Memory Management and Caching
+### Memory Management and Caching
 
 **Memory System:**
 
@@ -212,7 +211,7 @@ The Intel 80486 processor signifies a leap in integration by combining an on-chi
 *   8KB Cache: On-chip cache reduces memory latency, improving overall performance.
 
 
-## Instruction Processing and Prefetch
+### Instruction Processing and Prefetch
 
 **Instruction Handling:**
 
@@ -221,7 +220,7 @@ The Intel 80486 processor signifies a leap in integration by combining an on-chi
 *   Prefetcher: Keeps the code queue filled, minimizing instruction fetch delays.
 
 
-## Bus Interface and System Integration
+### Bus Interface and System Integration
 
 **Bus Management:**
 
@@ -235,11 +234,10 @@ The Intel 80486 processor signifies a leap in integration by combining an on-chi
     *   Parity Generation and Control: Ensures data integrity.
 
 ## Intel Pentium Processor Architecture <a name="intel-pentium-processor-architecture"></a>
-![Intel Pentium Architecture Diagram](/assets/images/pentium.jpg)
-
+![Intel Pentium Architecture Diagram]({{ '/assets/images/pentium.jpg' | relative_url }})
 The Intel Pentium processor introduces a dual pipeline design, enhancing performance through superscalar architecture with both 32-bit and 64-bit data paths.
 
-## Instruction Processing and Branch Prediction
+### Instruction Processing and Branch Prediction
 
 **Instruction Handling:**
 
@@ -249,7 +247,7 @@ The Intel Pentium processor introduces a dual pipeline design, enhancing perform
 *   Prefetch Buffers: Ensure a continuous supply of instructions to the pipelines.
 
 
-## Execution Units and Register Organization
+### Execution Units and Register Organization
 
 **Execution Core:**
 
@@ -260,7 +258,7 @@ The Intel Pentium processor introduces a dual pipeline design, enhancing perform
 *   Shared Integer Register File: Between the U and V pipelines for efficient data sharing.
 
 
-## Memory Management and Caching
+### Memory Management and Caching
 
 **Memory System:**
 
@@ -269,7 +267,7 @@ The Intel Pentium processor introduces a dual pipeline design, enhancing perform
 *   8KB Caches (Code and Data): Both utilize a write-back policy to optimize memory usage.
 
 
-## System Interface and Control
+### System Interface and Control
 
 **Bus and Control:**
 
@@ -279,11 +277,10 @@ The Intel Pentium processor introduces a dual pipeline design, enhancing perform
 
 
 ## P6 (Intel Pentium Pro) Processor Architecture <a name="p6-intel-pentium-pro-processor-architecture"></a>
-![P6 Architecture Diagram](/assets/images/pentiumpro.png)
-
+![P6 Architecture Diagram]({{ '/assets/images/pentiumpro.png' | relative_url }})
 The P6 architecture by Intel is notable for its complex pipeline design, enhancing processor performance through various innovative features.
 
-## Instruction Processing and Fetch Unit
+### Instruction Processing and Fetch Unit
 
 **Fetch Mechanism:**
 
@@ -292,7 +289,7 @@ The P6 architecture by Intel is notable for its complex pipeline design, enhanci
 *   Micro-op Decoding: Instructions are broken down into micro-operations (micro-ops) and placed into an instruction pool for further processing.
 
 
-## Execution Resources and Register Management
+### Execution Resources and Register Management
 
 **Execution Pipeline:**
 
@@ -300,7 +297,7 @@ The P6 architecture by Intel is notable for its complex pipeline design, enhanci
 *   Register Alias Table (RAT): Manages register renaming, which is crucial for out-of-order execution, preventing false dependencies.
 
 
-## Memory Management and Store Operations
+### Memory Management and Store Operations
 
 **Memory Operations:**
 
@@ -309,20 +306,15 @@ The P6 architecture by Intel is notable for its complex pipeline design, enhanci
 *   Load Buffer: Manages data reads, supporting speculative execution to accelerate data access.
 
 
-## Retirement and Commitment
+### Retirement and Commitment
 
 **Instruction Commitment:**
 
 *   Retirement Unit: Ensures that instructions are committed to the architectural state in order, despite being executed out-of-order.
 *   Exception and Interrupt Handling: Manages any exceptions or interrupts, maintaining system integrity.
 
-
-This architecture was groundbreaking for introducing advanced techniques like out-of-order execution and speculative processing, which significantly increased the efficiency and speed of instruction execution in processors.
-
-
 ## Intel Pentium III Processor Architecture <a name="intel-pentium-iii-processor-architecture"></a>
-![Pentium III Architecture Diagram](/assets/images/pentium3.jpeg)
-
+![Pentium III Architecture Diagram]({{ '/assets/images/pentium3.jpeg' | relative_url }})
 The Pentium III processor builds upon the P6 architecture with several key enhancements:
 
 * **Caches:**  16 KB instruction cache and 16 KB data cache, both 4-way set associative.
@@ -330,14 +322,11 @@ The Pentium III processor builds upon the P6 architecture with several key enhan
 * **Out-of-Order Execution:** Integer/floating-point register rename and allocator, 20-entry reservation station, and 40-entry reorder buffer.
 * **Execution Units:**  AGUs (Address Generation Units), multiple execution units (IEU, FPU) for integer, floating-point, and multimedia instructions.
 
-
-
 ## Intel Pentium 4 Processor Architecture <a name="intel-pentium-4-processor-architecture"></a>
-![Pentium 4 Architecture Diagram](/assets/images/pentium4.png)
-
+![Pentium 4 Architecture Diagram]({{ '/assets/images/pentium4.png' | relative_url }})
 The Pentium 4 processor introduces several advancements in instruction handling and execution efficiency.
 
-## Front-End and Instruction Processing
+### Front-End and Instruction Processing
 
 **Instruction Fetching:**
 
@@ -346,7 +335,7 @@ The Pentium 4 processor introduces several advancements in instruction handling 
 *   12K μops Trace Cache: Stores decoded micro-operations (μops), speeding up instruction execution with its own 512-entry Trace Cache BTB.
 
 
-## Instruction Allocation and Scheduling
+### Instruction Allocation and Scheduling
 
 **Resource Management:**
 
@@ -360,7 +349,7 @@ The Pentium 4 processor introduces several advancements in instruction handling 
     *   Simple FP Scheduler: For less complex floating-point tasks.
 
 
-## Execution Resources
+### Execution Resources
 
 **Execution Units:**
 
@@ -371,7 +360,7 @@ The Pentium 4 processor introduces several advancements in instruction handling 
 *   Register/Bypass Networks: Ensure data availability for subsequent instructions.
 
 
-## Memory Hierarchy and System Interface
+### Memory Hierarchy and System Interface
 
 **Cache and Bus:**
 
@@ -380,7 +369,7 @@ The Pentium 4 processor introduces several advancements in instruction handling 
 *   Bus Interface Unit: Supports a Quad-Pumped system bus with 3.2 GB/s throughput, while the L2 cache boasts a 48GB/s bandwidth.
 
 
-## Advanced Features and Performance
+### Advanced Features and Performance
 
 **Performance Enhancements:**
 
