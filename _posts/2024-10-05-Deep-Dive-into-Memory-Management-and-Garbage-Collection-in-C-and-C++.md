@@ -189,9 +189,9 @@ int main() {
     head->next->data = 2;
     head->next->next = NULL;
 
-    // Use the linked list...
+    // you can use the linked list
 
-    // Cleanup
+    // cleanup
     struct Node* current = head;
     while (current != NULL) {
         struct Node* temp = current;
@@ -278,7 +278,7 @@ public:
 
     void deallocate(void* ptr) {
         // In this simple implementation, we don't actually free memory
-        // A more sophisticated version would track free blocks
+        // A more advanced version would track free blocks
     }
 };
 
