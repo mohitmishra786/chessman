@@ -19,7 +19,7 @@ layout: post
 
 ### Introduction
 
-Memory management is a crucial aspect of programming, especially in languages like C and C++ that provide low-level control over system resources. In this post, we'll explore the intricacies of memory management, discuss why garbage collection isn't typically used in C/C++, and delve into alternative approaches for efficient memory handling.
+Memory management is a crucial aspect of programming, especially in languages like C and C++ that provide low-level control over system resources. In this post, we'll explore the intricacies of memory management, discuss why garbage collection isn't typically used in C/C++, and try to see into alternative approaches for efficient memory handling.
 
 ### Understanding Memory Cleanup
 
