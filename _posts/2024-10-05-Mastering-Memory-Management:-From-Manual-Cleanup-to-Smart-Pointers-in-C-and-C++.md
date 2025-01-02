@@ -23,7 +23,7 @@ Memory management is a crucial aspect of programming, especially in languages li
 
 ### Understanding Memory Cleanup
 
-Before we dive into garbage collection, it's essential to understand what happens to memory when a program terminates. Many programmers, especially those coming from languages with automatic garbage collection, often wonder about memory cleanup at program exit.
+Before we get into garbage collection, it's essential to understand what happens to memory when a program terminates. Many programmers, especially those coming from languages with automatic garbage collection, often wonder about memory cleanup at program exit.
 
 #### Memory Cleanup at Program Termination
 
