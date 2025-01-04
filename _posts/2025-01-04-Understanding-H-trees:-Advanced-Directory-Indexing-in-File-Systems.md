@@ -16,9 +16,7 @@ layout: post
    - [Search Operations](#search-operations)
    - [Insertion Operations](#insertion-operations)
 7. [Performance Analysis](#performance-analysis)
-8. [Visual Representation](#visual-representation)
-9. [Further Reading](#further-reading)
-10. [Conclusion](#conclusion)
+8. [Conclusion](#conclusion)
 
 ## Introduction
 
