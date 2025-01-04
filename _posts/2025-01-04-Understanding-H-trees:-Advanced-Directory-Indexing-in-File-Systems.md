@@ -24,7 +24,7 @@ layout: post
 
 File systems are the backbone of data organization in modern computing, and their efficiency directly impacts system performance. One of the most critical aspects of file system design is **directory indexing** - how quickly and efficiently we can locate files within directories.
 
-This post explains everything about **H-trees**, an innovative solution that revolutionized directory indexing in the EXT3 file system, offering up to **145 times faster directory searches** compared to traditional methods.
+This post explains everything about **H-trees**, an innovative solution that revolutionized directory indexing in the EXT3 file system, offering up to **many times faster directory searches** compared to traditional methods.
 
 
 ## Background: Directory Storage Challenges
