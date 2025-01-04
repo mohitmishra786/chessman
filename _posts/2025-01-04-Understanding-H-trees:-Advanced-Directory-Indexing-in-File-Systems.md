@@ -22,7 +22,7 @@ layout: post
 
 ## Introduction
 
-File systems are the backbone of data organization in modern computing, and their efficiency directly impacts system performance. One of the most critical aspects of file system design is **directory indexing** - how quickly and efficiently we can locate files within directories. 
+File systems are the backbone of data organization in modern computing, and their efficiency directly impacts system performance. One of the most critical aspects of file system design is **directory indexing** - how quickly and efficiently we can locate files within directories.
 
 This post explains everything about **H-trees**, an innovative solution that revolutionized directory indexing in the EXT3 file system, offering up to **145 times faster directory searches** compared to traditional methods.
 
@@ -93,16 +93,16 @@ int main() {
     add_file(test_dir, "file1.txt", 1001);
     add_file(test_dir, "file2.txt", 1002);
     add_file(test_dir, "file3.txt", 1003);
-    
+
     const char* search_name = "file2.txt";
     struct dir_entry* result = find_file(test_dir, search_name);
-    
+
     if (result != NULL) {
         printf("Found file: %s (inode: %lu)\n", result->name, result->inode);
     } else {
         printf("File not found: %s\n", search_name);
     }
-    
+
     return 0;
 }
 ```
@@ -187,19 +187,19 @@ struct btree_node* create_node(const char* name, unsigned long inode) {
     return node;
 }
 
-struct btree_node* insert_file_recursive(struct btree_node* node, const char* name, 
+struct btree_node* insert_file_recursive(struct btree_node* node, const char* name,
                                        unsigned long inode) {
     if (node == NULL) {
         return create_node(name, inode);
     }
-    
+
     int cmp = strcmp(name, node->name);
     if (cmp < 0) {
         node->left = insert_file_recursive(node->left, name, inode);
     } else if (cmp > 0) {
         node->right = insert_file_recursive(node->right, name, inode);
     }
-    
+
     return node;
 }
 
@@ -210,7 +210,7 @@ void insert_file(struct btree_directory* dir, const char* name, unsigned long in
 
 struct btree_node* find_file(struct btree_directory* dir, const char* name) {
     struct btree_node* current = dir->root;
-    
+
     while (current != NULL) {
         int cmp = strcmp(name, current->name);
         if (cmp == 0) {
@@ -221,26 +221,26 @@ struct btree_node* find_file(struct btree_directory* dir, const char* name) {
             current = current->right;
         }
     }
-    
+
     return NULL;
 }
 
 int main() {
     struct btree_directory* dir = init_btree_directory();
-    
+
     insert_file(dir, "file1.txt", 1001);
     insert_file(dir, "file2.txt", 1002);
     insert_file(dir, "file3.txt", 1003);
-    
+
     const char* search_name = "file2.txt";
     struct btree_node* result = find_file(dir, search_name);
-    
+
     if (result != NULL) {
         printf("Found file: %s (inode: %lu)\n", result->name, result->inode);
     } else {
         printf("File not found: %s\n", search_name);
     }
-    
+
     return 0;
 }
 ```
@@ -335,30 +335,30 @@ struct htree_directory {
 
 struct htree_directory* init_htree_directory() {
     struct htree_directory* dir = malloc(sizeof(struct htree_directory));
-    
+
     dir->root_block = malloc(sizeof(struct htree_block));
     dir->root_block->header.block_type = 1;
     dir->root_block->header.entry_count = 0;
     dir->root_block->header.free_space = BLOCK_SIZE - sizeof(struct block_header);
-    
+
     dir->index_blocks = NULL;
     dir->entry_blocks = NULL;
     dir->num_index_blocks = 0;
     dir->num_entry_blocks = 0;
-    
+
     return dir;
 }
 
 struct htree_block* add_entry_block(struct htree_directory* dir) {
     dir->num_entry_blocks++;
-    dir->entry_blocks = realloc(dir->entry_blocks, 
+    dir->entry_blocks = realloc(dir->entry_blocks,
                                dir->num_entry_blocks * sizeof(struct htree_block*));
-    
+
     struct htree_block* block = malloc(sizeof(struct htree_block));
     block->header.block_type = 3;
     block->header.entry_count = 0;
     block->header.free_space = BLOCK_SIZE - sizeof(struct block_header);
-    
+
     dir->entry_blocks[dir->num_entry_blocks - 1] = block;
     return block;
 }
@@ -376,30 +376,30 @@ struct htree_block* find_entry_block(struct htree_directory* dir, uint32_t hash)
 void insert_file(struct htree_directory* dir, const char* name, uint32_t inode) {
     uint32_t hash = hash_filename(name);
     struct htree_block* block = find_entry_block(dir, hash);
-    
+
     struct dir_entry* entry = &block->data.entries[block->header.entry_count];
     entry->inode = inode;
     entry->name_len = strlen(name);
     entry->rec_len = sizeof(struct dir_entry);
     entry->file_type = 1; // Regular file
     strncpy(entry->name, name, MAX_FILENAME);
-    
+
     block->header.entry_count++;
     block->header.free_space -= sizeof(struct dir_entry);
 }
 
 int main() {
     struct htree_directory* dir = init_htree_directory();
-    
+
     insert_file(dir, "file1.txt", 1001);
     insert_file(dir, "file2.txt", 1002);
     insert_file(dir, "file3.txt", 1003);
-    
+
     printf("Directory statistics:\n");
     printf("Number of entry blocks: %u\n", dir->num_entry_blocks);
-    printf("First block entries: %u\n", 
+    printf("First block entries: %u\n",
            dir->entry_blocks[0]->header.entry_count);
-    
+
     return 0;
 }
 ```
@@ -454,9 +454,151 @@ H-trees provide significant performance improvements over traditional directory 
 #include <string.h>
 #include <time.h>
 #include <sys/time.h>
+#include <stdint.h>
 
+#define BLOCK_SIZE 4096
+#define MAX_FILENAME 255
 #define NUM_FILES 10000
 #define FILENAME_LENGTH 20
+#define MAX_ENTRIES_PER_BLOCK ((BLOCK_SIZE - sizeof(struct block_header)) / sizeof(struct dir_entry))
+#define MAX_INDEX_ENTRIES ((BLOCK_SIZE - sizeof(struct block_header)) / sizeof(struct index_entry))
+
+struct htree_directory;
+struct htree_block;
+struct dir_entry;
+
+struct block_header {
+    uint32_t block_type;  // ROOT = 1, INDEX = 2, ENTRY = 3
+    uint32_t entry_count;
+    uint32_t free_space;
+};
+
+struct dir_entry {
+    uint32_t inode;
+    uint16_t rec_len;
+    uint8_t name_len;
+    uint8_t file_type;
+    char name[MAX_FILENAME];
+};
+
+struct index_entry {
+    uint32_t hash;
+    uint32_t block_number;
+};
+
+struct htree_block {
+    struct block_header header;
+    union {
+        struct dir_entry entries[MAX_ENTRIES_PER_BLOCK];
+        struct index_entry indices[MAX_INDEX_ENTRIES];
+    } data;
+};
+
+struct htree_directory {
+    struct htree_block* root_block;
+    struct htree_block** index_blocks;
+    struct htree_block** entry_blocks;
+    uint32_t num_index_blocks;
+    uint32_t num_entry_blocks;
+};
+
+struct benchmark_results {
+    double insertion_time;
+    double search_time;
+    double memory_usage;
+};
+
+uint32_t hash_filename(const char* name) {
+    uint32_t hash = 0;
+    while (*name) {
+        hash = (hash << 5) + hash + *name;
+        name++;
+    }
+    return hash;
+}
+
+struct htree_directory* init_htree_directory() {
+    struct htree_directory* dir = malloc(sizeof(struct htree_directory));
+    if (!dir) return NULL;
+
+    dir->root_block = malloc(sizeof(struct htree_block));
+    if (!dir->root_block) {
+        free(dir);
+        return NULL;
+    }
+
+    dir->root_block->header.block_type = 1;
+    dir->root_block->header.entry_count = 0;
+    dir->root_block->header.free_space = BLOCK_SIZE - sizeof(struct block_header);
+
+    dir->index_blocks = NULL;
+    dir->entry_blocks = NULL;
+    dir->num_index_blocks = 0;
+    dir->num_entry_blocks = 0;
+
+    return dir;
+}
+
+struct htree_block* add_entry_block(struct htree_directory* dir) {
+    dir->num_entry_blocks++;
+    dir->entry_blocks = realloc(dir->entry_blocks,
+                               dir->num_entry_blocks * sizeof(struct htree_block*));
+    if (!dir->entry_blocks) return NULL;
+
+    struct htree_block* block = malloc(sizeof(struct htree_block));
+    if (!block) {
+        dir->num_entry_blocks--;
+        return NULL;
+    }
+
+    block->header.block_type = 3;
+    block->header.entry_count = 0;
+    block->header.free_space = BLOCK_SIZE - sizeof(struct block_header);
+
+    dir->entry_blocks[dir->num_entry_blocks - 1] = block;
+    return block;
+}
+
+struct htree_block* find_entry_block(struct htree_directory* dir, uint32_t hash) {
+    for (uint32_t i = 0; i < dir->num_entry_blocks; i++) {
+        struct htree_block* block = dir->entry_blocks[i];
+        if (block->header.entry_count < MAX_ENTRIES_PER_BLOCK) {
+            return block;
+        }
+    }
+    return add_entry_block(dir);
+}
+
+void insert_file(struct htree_directory* dir, const char* name, uint32_t inode) {
+    uint32_t hash = hash_filename(name);
+    struct htree_block* block = find_entry_block(dir, hash);
+    if (!block) return;
+
+    struct dir_entry* entry = &block->data.entries[block->header.entry_count];
+    entry->inode = inode;
+    entry->name_len = strlen(name);
+    entry->rec_len = sizeof(struct dir_entry);
+    entry->file_type = 1; // Regular file
+    strncpy(entry->name, name, MAX_FILENAME);
+
+    block->header.entry_count++;
+    block->header.free_space -= sizeof(struct dir_entry);
+}
+
+struct dir_entry* find_file(struct htree_directory* dir, const char* name) {
+    uint32_t hash = hash_filename(name);
+
+    for (uint32_t i = 0; i < dir->num_entry_blocks; i++) {
+        struct htree_block* block = dir->entry_blocks[i];
+        for (uint32_t j = 0; j < block->header.entry_count; j++) {
+            struct dir_entry* entry = &block->data.entries[j];
+            if (strcmp(entry->name, name) == 0) {
+                return entry;
+            }
+        }
+    }
+    return NULL;
+}
 
 double get_time() {
     struct timeval tv;
@@ -473,60 +615,106 @@ void generate_filename(char* buffer) {
     buffer[FILENAME_LENGTH] = '\0';
 }
 
-struct benchmark_results {
-    double insertion_time;
-    double search_time;
-    double memory_usage;
-};
+void cleanup_htree_directory(struct htree_directory* dir) {
+    if (!dir) return;
+
+    if (dir->root_block) {
+        free(dir->root_block);
+    }
+
+    if (dir->index_blocks) {
+        for (uint32_t i = 0; i < dir->num_index_blocks; i++) {
+            free(dir->index_blocks[i]);
+        }
+        free(dir->index_blocks);
+    }
+
+    if (dir->entry_blocks) {
+        for (uint32_t i = 0; i < dir->num_entry_blocks; i++) {
+            free(dir->entry_blocks[i]);
+        }
+        free(dir->entry_blocks);
+    }
+
+    free(dir);
+}
 
 struct benchmark_results run_htree_benchmark() {
-    struct benchmark_results results;
+    struct benchmark_results results = {0};
     struct htree_directory* dir = init_htree_directory();
+    if (!dir) {
+        printf("Failed to initialize H-tree directory\n");
+        return results;
+    }
+
     char** filenames = malloc(NUM_FILES * sizeof(char*));
-    
+    if (!filenames) {
+        cleanup_htree_directory(dir);
+        printf("Failed to allocate memory for filenames\n");
+        return results;
+    }
+
     for (int i = 0; i < NUM_FILES; i++) {
         filenames[i] = malloc(FILENAME_LENGTH + 1);
+        if (!filenames[i]) {
+            for (int j = 0; j < i; j++) {
+                free(filenames[j]);
+            }
+            free(filenames);
+            cleanup_htree_directory(dir);
+            printf("Failed to allocate memory for filename %d\n", i);
+            return results;
+        }
         generate_filename(filenames[i]);
     }
-    
-    // measure insertion time
+
+    // Measure insertion time
     double start_time = get_time();
     for (int i = 0; i < NUM_FILES; i++) {
         insert_file(dir, filenames[i], i + 1000);
     }
     results.insertion_time = get_time() - start_time;
-    
-    // measure search time (random access)
+
+    // Measure search time (random access)
     start_time = get_time();
     for (int i = 0; i < 1000; i++) {
         int index = rand() % NUM_FILES;
         find_file(dir, filenames[index]);
     }
     results.search_time = get_time() - start_time;
-    
+
+    // Calculate memory usage
     results.memory_usage = sizeof(struct htree_directory) +
                           sizeof(struct htree_block) * (1 + dir->num_index_blocks + dir->num_entry_blocks);
-    
+
     for (int i = 0; i < NUM_FILES; i++) {
         free(filenames[i]);
     }
     free(filenames);
-    
+    cleanup_htree_directory(dir);
+
     return results;
 }
 
 int main() {
     srand(time(NULL));
-    
+
     printf("Running H-tree performance benchmark...\n");
+    printf("Configuration:\n");
+    printf("- Number of files: %d\n", NUM_FILES);
+    printf("- Block size: %d bytes\n", BLOCK_SIZE);
+    printf("- Max entries per block: %lu\n", MAX_ENTRIES_PER_BLOCK);
+
     struct benchmark_results results = run_htree_benchmark();
-    
+
     printf("\nBenchmark Results:\n");
     printf("Insertion time for %d files: %.3f seconds\n", NUM_FILES, results.insertion_time);
-    printf("Average search time (1000 random lookups): %.6f seconds\n", 
+    printf("Average search time (1000 random lookups): %.6f seconds\n",
            results.search_time / 1000.0);
     printf("Memory usage: %.2f MB\n", results.memory_usage / (1024.0 * 1024.0));
-    
+    printf("Average insertion time per file: %.6f ms\n",
+           (results.insertion_time * 1000.0) / NUM_FILES);
+
     return 0;
 }
 ```
@@ -535,33 +723,54 @@ This benchmark measures the performance of H-trees by inserting 10,000 files and
 
 **To Compile and Run this code**
 ```bash
-gcc -O2 -o htree_benchmark htree_benchmark.c
+gcc -O2 -Wall -o htree_benchmark htree_benchmark.c
 ./htree_benchmark
 ```
 
 **Expected Output:**
 ```
+➜  code git:(main) ✗ ./htree_benchmark
 Running H-tree performance benchmark...
+Configuration:
+- Number of files: 10000
+- Block size: 4096 bytes
+- Max entries per block: 15
 
 Benchmark Results:
-Insertion time for 10000 files: 0.325 seconds
-Average search time (1000 random lookups): 0.000012 seconds
-Memory usage: 2.14 MB
+Insertion time for 10000 files: 0.014 seconds
+Average search time (1000 random lookups): 0.000041 seconds
+Memory usage: 2.61 MB
+Average insertion time per file: 0.001382 ms
 ```
 
-Key assembly optimization for the hash lookup (x86_64 with -O2):
+Key assembly optimization for the hash filename (x86_64 with -O2):
 ```asm
-.L_hash_lookup:
-    mov     rax, rdi                # Load hash value
-    shr     rax, 32                 # Get upper 32 bits
-    movzx   edx, al                 # Extract index bits
-    mov     rax, QWORD PTR [rsi+rdx*8] # Load block pointer
-    test    rax, rax                # Check if null
-    je      .L_not_found
-    mov     rdx, QWORD PTR [rax+8]  # Load block entry count
-    test    rdx, rdx                # Check if empty
-    je      .L_next_block
-    # Binary search implementation follows...
+hash_filename:
+        push    rbp
+        mov     rbp, rsp
+        mov     QWORD PTR [rbp-24], rdi
+        mov     DWORD PTR [rbp-4], 0
+        jmp     .L2
+.L3:
+        mov     eax, DWORD PTR [rbp-4]
+        sal     eax, 5
+        mov     edx, eax
+        mov     eax, DWORD PTR [rbp-4]
+        add     edx, eax
+        mov     rax, QWORD PTR [rbp-24]
+        movzx   eax, BYTE PTR [rax]
+        movsx   eax, al
+        add     eax, edx
+        mov     DWORD PTR [rbp-4], eax
+        add     QWORD PTR [rbp-24], 1
+.L2:
+        mov     rax, QWORD PTR [rbp-24]
+        movzx   eax, BYTE PTR [rax]
+        test    al, al
+        jne     .L3
+        mov     eax, DWORD PTR [rbp-4]
+        pop     rbp
+        ret
 ```
 
 ## Conclusion
