@@ -14,7 +14,7 @@ layout: post
 
 ## Introduction
 
-In modern computing, understanding the distinction between processes and threads, along with their optimal use cases, is crucial for developing efficient and scalable applications. This comprehensive guide delves deep into the technical aspects of processes and threads, their implementation details, and practical applications in system programming.
+In modern computing, understanding the distinction between processes and threads, along with their optimal use cases, is crucial for developing efficient and scalable applications. This article explains the technical aspects of processes and threads, their implementation details, and practical applications in system programming.
 
 ## Core Concepts: Processes vs Threads
 
