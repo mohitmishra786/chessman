@@ -24,7 +24,7 @@ In multithreaded programming, ensuring data integrity and maximizing performance
 
 ### The Problem with Traditional Mutex Locks
 
-Before delving into reader-writer locks, let's revisit the limitations of traditional mutex locks. Imagine a shared data structure accessed by multiple threads. Some threads only read the data, while others modify it. A mutex lock would typically be implemented like this:
+Before getting into reader-writer locks, let's revisit the limitations of traditional mutex locks. Imagine a shared data structure accessed by multiple threads. Some threads only read the data, while others modify it. A mutex lock would typically be implemented like this:
 
 ```c
 #include <pthread.h>
