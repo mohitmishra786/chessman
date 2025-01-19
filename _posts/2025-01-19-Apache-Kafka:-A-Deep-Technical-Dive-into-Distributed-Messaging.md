@@ -6,8 +6,9 @@ layout: post
 
 Apache Kafka stands as one of the most robust distributed messaging systems in modern software architecture. Originally developed by LinkedIn in 2011, it has evolved into a cornerstone technology for handling real-time data feeds and event streaming at massive scale. This comprehensive analysis delves into the technical intricacies of Kafka, exploring its architecture, implementation details, and the engineering decisions that make it exceptionally scalable and reliable.
 
-## Core Architecture and Components
+![Kafka Architecture]({{ '/assets/images/kafka.png' | relative_url }})
 
+## Core Architecture and Components
 ### Message Brokers and Distribution
 
 At its heart, Kafka operates as a distributed messaging system built around the concept of brokers. These brokers serve as the fundamental building blocks that enable Kafka's impressive scalability. A broker is essentially a server instance that handles message storage and distribution, but its implementation goes far beyond simple message queuing.
