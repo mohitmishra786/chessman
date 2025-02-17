@@ -22,7 +22,7 @@ layout: post
 
 ## Introduction
 
-In the world of concurrent programming, deadlocks remain one of the most challenging and insidious issues developers face. A deadlock occurs when two or more threads or processes are unable to make progress because each is waiting for the other to release a resource. This blog post will delve deep into the concept of deadlocks, exploring their causes, demonstrating them through practical examples, and discussing strategies to prevent and resolve them.
+In the world of concurrent programming, deadlocks remain one of the most challenging and insidious issues developers face. A deadlock occurs when two or more threads or processes are unable to make progress because each is waiting for the other to release a resource. This blog post will explain the concept of deadlocks, exploring their causes, demonstrating them through practical examples, and discussing strategies to prevent and resolve them.
 
 ## Understanding Deadlocks
 
