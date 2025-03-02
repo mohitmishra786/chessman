@@ -1,5 +1,3 @@
-# Everything You Need to Know About PostgreSQL Locks: Practical Skills You Need
-
 PostgreSQL is a powerful database system that uses special locking methods to keep data safe and allow many users to work with it at the same time. Knowing how these locks work is really important for people who manage databases or build apps, especially if they want their systems to run fast and smooth. This post clearly explains PostgreSQL’s locking system and gives simple SQL commands you can use to check and see each lock working for yourself.
 
 # Table of Contents
