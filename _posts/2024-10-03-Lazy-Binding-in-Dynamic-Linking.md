@@ -2,7 +2,7 @@
 layout: post
 ---
 
-In the world of modern software development, dynamic linking plays a crucial role in creating efficient and flexible executable programs. One of the key optimizations in dynamic linking is lazy binding, a technique that defers the resolution of function addresses until they are actually needed during program execution. This blog post will take you on a deep dive into the intricacies of lazy binding, exploring its implementation, benefits, and the low-level details that make it work.
+In the world of modern software development, dynamic linking plays a crucial role in creating efficient and flexible executable programs. One of the key optimizations in dynamic linking is lazy binding, a technique that defers the resolution of function addresses until they are actually needed during program execution. This blog post will explain the intricacies of lazy binding, exploring its implementation, benefits, and the low-level details that make it work.
 
 ## Table of Contents
 
