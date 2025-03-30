@@ -635,100 +635,11 @@ As we continue to move towards more concurrent and parallel computing paradigms,
 
 Let's visualize the concepts we've discussed to better understand how threads operate within a process and how they compare to the multi-process model:
 
-```mermaid
-flowchart TD
-    subgraph "Process Model"
-    P1[Process 1] --> P1M[Memory Space]
-    P1M --> P1T[Text/Code]
-    P1M --> P1D[Data]
-    P1M --> P1H[Heap]
-    P1M --> P1S[Stack]
-    P1M --> P1R[Registers/PC]
-    
-    P2[Process 2] --> P2M[Memory Space]
-    P2M --> P2T[Text/Code]
-    P2M --> P2D[Data]
-    P2M --> P2H[Heap]
-    P2M --> P2S[Stack]
-    P2M --> P2R[Registers/PC]
-    end
-    
-    subgraph "Thread Model"
-    TP[Process] --> TPM[Memory Space]
-    TPM --> TPT[Text/Code]
-    TPM --> TPD[Data]
-    TPM --> TPH[Heap]
-    
-    TPM --> T1[Thread 1]
-    T1 --> T1S[Stack]
-    T1 --> T1R[Registers/PC]
-    
-    TPM --> T2[Thread 2]
-    T2 --> T2S[Stack]
-    T2 --> T2R[Registers/PC]
-    
-    TPM --> T3[Thread 3]
-    T3 --> T3S[Stack]
-    T3 --> T3R[Registers/PC]
-    end
-```
+[![](https://mermaid.ink/img/pako:eNqNk0FvgkAQhf8KmTNqWUQJh17k4MWEKKeChy2MYgosWZZUa_zvXesuCtime2K_N_P2TSacIWEpgge7nH0mGeXCCP24NOSpm_c9p1VmxBBwlmBdGytZm8dw0wMr0tzaGqPRqySraIUF4ydjU9EEt7pwpeQwCvEoJgtpM9D8yKeCDvAyWiKtBngTbQRNPgZ8Ha1xf6gF8noSLJSsikibl6i85HleotzIk7yt1s3b4m7eFvfytvxpXizTx-APiwgzjjTt7iEM9Fy3qcLg6VQSK3k41V3rTHXHnal6ohWpVJZus5TQHbrFf-yoNSXalOhuooSeqcb_MbW1qa27bSX0TDX-bTtgQoG8oIdU_jnnK45BZFhgDJ78THFHm1xcF3SRpbQRbHMqE_AEb9AEzpp9Bt6O5rW8NVVKBfoHKndc6JKKlm-MPV7BO8MRPNcdv8jj2NMXZz6z5sSEE3jEmY1ddz53Z-7MIfZ0ejHh66ffMmHPrzHV0zI88gVrSgHe1Ll8AyZ9J7Y?type=png)](https://mermaid.live/edit#pako:eNqNk0FvgkAQhf8KmTNqWUQJh17k4MWEKKeChy2MYgosWZZUa_zvXesuCtime2K_N_P2TSacIWEpgge7nH0mGeXCCP24NOSpm_c9p1VmxBBwlmBdGytZm8dw0wMr0tzaGqPRqySraIUF4ydjU9EEt7pwpeQwCvEoJgtpM9D8yKeCDvAyWiKtBngTbQRNPgZ8Ha1xf6gF8noSLJSsikibl6i85HleotzIk7yt1s3b4m7eFvfytvxpXizTx-APiwgzjjTt7iEM9Fy3qcLg6VQSK3k41V3rTHXHnal6ohWpVJZus5TQHbrFf-yoNSXalOhuooSeqcb_MbW1qa27bSX0TDX-bTtgQoG8oIdU_jnnK45BZFhgDJ78THFHm1xcF3SRpbQRbHMqE_AEb9AEzpp9Bt6O5rW8NVVKBfoHKndc6JKKlm-MPV7BO8MRPNcdv8jj2NMXZz6z5sSEE3jEmY1ddz53Z-7MIfZ0ejHh66ffMmHPrzHV0zI88gVrSgHe1Ll8AyZ9J7Y)
 
 Now, let's visualize how a multi-threaded server handles concurrent requests:
 
-```mermaid
-sequenceDiagram
-    participant Client1
-    participant Client2
-    participant Client3
-    participant MainThread
-    participant WorkerThread1
-    participant WorkerThread2
-    participant WorkerThread3
-    participant Disk
-    
-    MainThread->>MainThread: Initialize server
-    MainThread->>MainThread: Bind to port 3000
-    MainThread->>MainThread: Listen for connections
-    
-    Client1->>MainThread: Connect
-    MainThread->>WorkerThread1: Create thread
-    MainThread-->>Client1: Accept connection
-    
-    Client2->>MainThread: Connect
-    MainThread->>WorkerThread2: Create thread
-    MainThread-->>Client2: Accept connection
-    
-    WorkerThread1->>Client1: Request image details
-    Client1->>WorkerThread1: Send image request
-    
-    Client3->>MainThread: Connect
-    MainThread->>WorkerThread3: Create thread
-    MainThread-->>Client3: Accept connection
-    
-    WorkerThread1->>Disk: Read image from disk
-    
-    WorkerThread2->>Client2: Request image details
-    Client2->>WorkerThread2: Send image request
-    
-    WorkerThread3->>Client3: Request image details
-    Client3->>WorkerThread3: Send image request
-    
-    WorkerThread2->>Disk: Read image from disk
-    
-    Disk-->>WorkerThread1: Return image data
-    WorkerThread1->>Client1: Send image
-    WorkerThread1->>WorkerThread1: Close connection
-    
-    WorkerThread3->>Disk: Read image from disk
-    
-    Disk-->>WorkerThread2: Return image data
-    WorkerThread2->>Client2: Send image
-    WorkerThread2->>WorkerThread2: Close connection
-    
-    Disk-->>WorkerThread3: Return image data
-    WorkerThread3->>Client3: Send image
-    WorkerThread3->>WorkerThread3: Close connection
-```
+[![](https://mermaid.ink/img/pako:eNqlVU1vozAQ_SuWz2kFdhGRD5W66aVS99JWWmnFxYJJYhVsaoZV2yj_fc0SFL4CbMsBsOeN_d6bAR9obBKgghbwVoKO4V7JnZVZpIm7cmlRxSqXGskmVaDRvxRglwJ8GPgplX7ZW5DJMPbL2FewddSfDrPp8MjG96p4rWfr-5nI1e3teSDIg1aoZKo-gRRg_4Cdwf9QOiFoSG4sEu553gz-URUImmyNJbHRGmJURhdtaie7e3mbGjyyesc3B3RPBIItl1twhz-tL8hdHEOOLRpDFuxLLNhiFmyGRUdbm_tT1bQFEpXJHZAEUKq06PvXc-YZXKnqBFunDwXzLwnmiwXz_xRc9W2lVjbMt9ZkJOl1c8f8trmzNrFh6aZt6shuy5rdig9NW74VW-xFhboaFv8JsLS6YSdRzjTYmdo4sP_VpaaABTXl39LBFunodMCUjpHiT-kYY8QXMeo0yhSjkR7pM6IrmoHNpErc2XWologo7iGDiAr3msBWlilGNNJHB5UlmucPHVOBtoQVtabc7ZtBmTu6zbnXTLrj4rcx7SEVB_pOBQuDa_d_97gX-GEQrv0V_aCCB9frdRiGwQ3z_RsWrI8r-vkv38V3tmJ52tnJBrsxpUYqguNfzyd--Q?type=png)](https://mermaid.live/edit#pako:eNqlVU1vozAQ_SuWz2kFdhGRD5W66aVS99JWWmnFxYJJYhVsaoZV2yj_fc0SFL4CbMsBsOeN_d6bAR9obBKgghbwVoKO4V7JnZVZpIm7cmlRxSqXGskmVaDRvxRglwJ8GPgplX7ZW5DJMPbL2FewddSfDrPp8MjG96p4rWfr-5nI1e3teSDIg1aoZKo-gRRg_4Cdwf9QOiFoSG4sEu553gz-URUImmyNJbHRGmJURhdtaie7e3mbGjyyesc3B3RPBIItl1twhz-tL8hdHEOOLRpDFuxLLNhiFmyGRUdbm_tT1bQFEpXJHZAEUKq06PvXc-YZXKnqBFunDwXzLwnmiwXz_xRc9W2lVjbMt9ZkJOl1c8f8trmzNrFh6aZt6shuy5rdig9NW74VW-xFhboaFv8JsLS6YSdRzjTYmdo4sP_VpaaABTXl39LBFunodMCUjpHiT-kYY8QXMeo0yhSjkR7pM6IrmoHNpErc2XWologo7iGDiAr3msBWlilGNNJHB5UlmucPHVOBtoQVtabc7ZtBmTu6zbnXTLrj4rcx7SEVB_pOBQuDa_d_97gX-GEQrv0V_aCCB9frdRiGwQ3z_RsWrI8r-vkv38V3tmJ52tnJBrsxpUYqguNfzyd--Q)
 
 ## Thread Synchronization Deep Dive
 Thread synchronization ensures data consistency when multiple threads access shared resources. Let's explore some common synchronization mechanisms in more detail:
