@@ -2,7 +2,7 @@
 layout: post
 ---
 
-In the world of Unix-like operating systems, processes are fundamental units of execution. They come to life, perform their tasks, and eventually terminate. However, sometimes these processes linger in a state between life and death, known as "zombie processes." This blog post delves deep into the nature of zombie processes, their implications, and how to manage them effectively.
+In the world of Unix-like operating systems, processes are fundamental units of execution. They come to life, perform their tasks, and eventually terminate. However, sometimes these processes linger in a state between life and death, known as "zombie processes." This blog post explains the nature of zombie processes, their implications, and how to manage them effectively.
 
 ## What are Zombie Processes?
 

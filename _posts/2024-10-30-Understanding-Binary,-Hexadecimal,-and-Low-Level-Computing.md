@@ -3,7 +3,7 @@ layout: post
 ---
 ## Introduction
 
-In the realm of computing, understanding number systems and their representations is fundamental to mastering low-level programming and system architecture. This comprehensive guide explores the intricacies of binary and hexadecimal number systems, their practical applications, and their significance in modern computing. We'll dive deep into implementation details, provide practical code examples, and examine the underlying assembly code where relevant.
+In the realm of computing, understanding number systems and their representations is fundamental to mastering low-level programming and system architecture. This comprehensive guide explores the intricacies of binary and hexadecimal number systems, their practical applications, and their significance in modern computing. We'll understand implementation details, provide practical code examples, and examine the underlying assembly code where relevant.
 
 ## Number Systems in Computing
 Diagram showing the relationship between different number systems and memory representation:
@@ -54,22 +54,22 @@ void print_binary(uint8_t byte) {
 
 int main() {
     uint8_t value = 0xA5; // 10100101 in binary
-    
+
     printf("Value in different representations:\n");
     printf("Decimal: %d\n", value);
     printf("Hexadecimal: 0x%02X\n", value);
     printf("Binary: ");
     print_binary(value);
-    
+
     // Demonstrate bit operations
     uint8_t left_nibble = (value >> 4) & 0x0F;
     uint8_t right_nibble = value & 0x0F;
-    
+
     printf("\nLeft nibble: ");
     print_binary(left_nibble);
     printf("Right nibble: ");
     print_binary(right_nibble);
-    
+
     return 0;
 }
 ```
@@ -144,7 +144,7 @@ void hex_to_binary(const char* hex_str) {
     size_t len = strlen(hex_str);
     printf("Hex: %s\n", hex_str);
     printf("Binary: ");
-    
+
     for (size_t i = 0; i < len; i++) {
         uint8_t val = hex_values[(unsigned char)hex_str[i]];
         for (int j = 3; j >= 0; j--) {
@@ -159,7 +159,7 @@ void binary_to_hex(const char* bin_str) {
     size_t len = strlen(bin_str);
     printf("Binary: %s\n", bin_str);
     printf("Hex: ");
-    
+
     // Process 4 bits at a time
     for (size_t i = 0; i < len; i += 4) {
         uint8_t val = 0;
@@ -179,7 +179,7 @@ int main() {
     hex_to_binary("A5");
     printf("\nConverting binary to hex:\n");
     binary_to_hex("10100101");
-    
+
     return 0;
 }
 ```
@@ -222,17 +222,17 @@ void print_bits(int8_t value) {
 int main() {
     int8_t positive = 5;
     int8_t negative = -5;
-    
+
     printf("Positive 5:\n");
     print_bits(positive);
     printf("Negative 5 (two's complement):\n");
     print_bits(negative);
-    
+
     // Demonstrate two's complement calculation
     int8_t manual_negative = ~positive + 1;
     printf("Manually calculated -5:\n");
     print_bits(manual_negative);
-    
+
     return 0;
 }
 ```
@@ -255,11 +255,11 @@ void print_bytes(void* ptr, size_t size) {
 
 int main() {
     uint32_t value = 0x12345678;
-    
+
     printf("32-bit value: 0x%08X\n", value);
     printf("Byte representation in memory: ");
     print_bytes(&value, sizeof(value));
-    
+
     return 0;
 }
 ```
@@ -291,7 +291,7 @@ struct Aligned {
 int main() {
     printf("Unaligned struct size: %zu\n", sizeof(struct Unaligned));
     printf("Aligned struct size: %zu\n", sizeof(struct Aligned));
-    
+
     return 0;
 }
 ```

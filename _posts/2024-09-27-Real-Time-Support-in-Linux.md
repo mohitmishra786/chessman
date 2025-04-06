@@ -69,7 +69,7 @@ After years of development and overcoming numerous technical hurdles, the real-t
 
 On September 20, 2024, exactly 20 years after the PREEMPT_RT project's inception, the patches were merged into the mainline Linux kernel, marking a historic moment for the Linux community.
 
-## Technical Deep Dive: How Real-Time Linux Works
+## Technical Explanation: How Real-Time Linux Works
 
 Now that we've covered the history, let's delve into the technical details of how real-time support is implemented in Linux.
 

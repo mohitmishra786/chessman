@@ -4,7 +4,7 @@ layout: post
 
 ## Introduction
 
-PostgreSQL, one of the most popular open-source relational database management systems, has been making waves in the database community. With its upcoming version 17, currently in beta, PostgreSQL is introducing a game-changing feature: Combined I/O, also known as vectorized I/O. This blog post will delve deep into this new feature, exploring its implementation, benefits, and potential impact on database performance.
+PostgreSQL, one of the most popular open-source relational database management systems, has been making waves in the database community. With its upcoming version 17, currently in beta, PostgreSQL is introducing a game-changing feature: Combined I/O, also known as vectorized I/O. This blog post will get into this new feature, exploring its implementation, benefits, and potential impact on database performance.
 
 ## The Rise of PostgreSQL
 

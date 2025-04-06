@@ -16,7 +16,7 @@ layout: post
 
 ## Introduction
 
-Modern operating systems face a significant challenge in managing memory efficiently while providing isolation between processes. This blog post explores the elegant solution of multi-level page tables, diving deep into their implementation, practical applications, and performance implications.
+Modern operating systems face a significant challenge in managing memory efficiently while providing isolation between processes. This blog post explores the elegant solution of multi-level page tables, getting into their implementation, practical applications, and performance implications.
 
 ## The Challenge of Memory Management
 
@@ -72,12 +72,12 @@ TwoLevelPageTable* init_page_table() {
     TwoLevelPageTable* table = malloc(sizeof(TwoLevelPageTable));
     table->level1 = malloc(sizeof(PageTable));
     table->level2 = calloc(NUM_ENTRIES, sizeof(PageTable*));
-    
+
     // Initialize level 1 entries as not present
     for (int i = 0; i < NUM_ENTRIES; i++) {
         table->level1->entries[i].present = 0;
     }
-    
+
     return table;
 }
 
@@ -85,20 +85,20 @@ TwoLevelPageTable* init_page_table() {
 bool map_address(TwoLevelPageTable* table, uint64_t virtual_addr, uint64_t physical_addr) {
     uint64_t l1_index = (virtual_addr >> (PAGE_BITS + INDEX_BITS)) & ((1 << INDEX_BITS) - 1);
     uint64_t l2_index = (virtual_addr >> PAGE_BITS) & ((1 << INDEX_BITS) - 1);
-    
+
     // Allocate level 2 table if not present
     if (!table->level1->entries[l1_index].present) {
         table->level2[l1_index] = malloc(sizeof(PageTable));
         table->level1->entries[l1_index].present = 1;
     }
-    
+
     // Set up the level 2 entry
     PageTableEntry* l2_entry = &table->level2[l1_index]->entries[l2_index];
     l2_entry->physical_page_number = physical_addr >> PAGE_BITS;
     l2_entry->present = 1;
     l2_entry->writable = 1;
     l2_entry->user_accessible = 1;
-    
+
     return true;
 }
 
@@ -107,43 +107,43 @@ uint64_t translate_address(TwoLevelPageTable* table, uint64_t virtual_addr) {
     uint64_t l1_index = (virtual_addr >> (PAGE_BITS + INDEX_BITS)) & ((1 << INDEX_BITS) - 1);
     uint64_t l2_index = (virtual_addr >> PAGE_BITS) & ((1 << INDEX_BITS) - 1);
     uint64_t offset = virtual_addr & ((1 << PAGE_BITS) - 1);
-    
+
     // Check if pages are present
     if (!table->level1->entries[l1_index].present) {
         printf("Page fault: Level 1 entry not present\n");
         return (uint64_t)-1;
     }
-    
+
     PageTableEntry* l2_entry = &table->level2[l1_index]->entries[l2_index];
     if (!l2_entry->present) {
         printf("Page fault: Level 2 entry not present\n");
         return (uint64_t)-1;
     }
-    
+
     return (l2_entry->physical_page_number << PAGE_BITS) | offset;
 }
 
 int main() {
     TwoLevelPageTable* table = init_page_table();
-    
+
     // Map some virtual addresses to physical addresses
     uint64_t virtual_addr1 = 0x123456789000;  // Example virtual address
     uint64_t physical_addr1 = 0x987654321000; // Example physical address
-    
+
     map_address(table, virtual_addr1, physical_addr1);
-    
+
     // Try to translate addresses
     uint64_t result = translate_address(table, virtual_addr1);
-    printf("Virtual address 0x%lx translates to physical address 0x%lx\n", 
+    printf("Virtual address 0x%lx translates to physical address 0x%lx\n",
            virtual_addr1, result);
-    
+
     // Try an unmapped address
     uint64_t unmapped_addr = 0x999999999000;
     result = translate_address(table, unmapped_addr);
     if (result == (uint64_t)-1) {
         printf("Translation failed for unmapped address 0x%lx\n", unmapped_addr);
     }
-    
+
     return 0;
 }
 ```
@@ -191,8 +191,8 @@ int main() {
     }
 
     // Map shared memory
-    void *addr = mmap(NULL, SHARED_MEM_SIZE, 
-                     PROT_READ | PROT_WRITE, 
+    void *addr = mmap(NULL, SHARED_MEM_SIZE,
+                     PROT_READ | PROT_WRITE,
                      MAP_SHARED, fd, 0);
     if (addr == MAP_FAILED) {
         perror("mmap failed");
@@ -212,16 +212,16 @@ int main() {
     } else {  // Parent process
         // Wait for child to finish
         wait(NULL);
-        
+
         // Read from shared memory
         printf("Parent reads: %s\n", (char*)addr);
-        
+
         // Clean up
         if (munmap(addr, SHARED_MEM_SIZE) == -1) {
             perror("munmap failed");
             return 1;
         }
-        
+
         if (shm_unlink(name) == -1) {
             perror("shm_unlink failed");
             return 1;
@@ -266,14 +266,14 @@ uint64_t rdtsc() {
 int main() {
     // Allocate memory for pages
     char *memory = malloc(PAGE_SIZE * NUM_PAGES);
-    
+
     // Sequential access timing
     uint64_t start_seq = rdtsc();
     for (int i = 0; i < NUM_ACCESSES; i++) {
         memory[i % (PAGE_SIZE * NUM_PAGES)] += 1;
     }
     uint64_t end_seq = rdtsc();
-    
+
     // Random access timing
     uint64_t start_rand = rdtsc();
     for (int i = 0; i < NUM_ACCESSES; i++) {
@@ -281,10 +281,10 @@ int main() {
         memory[random_offset] += 1;
     }
     uint64_t end_rand = rdtsc();
-    
+
     printf("Sequential access cycles: %lu\n", end_seq - start_seq);
     printf("Random access cycles: %lu\n", end_rand - start_rand);
-    
+
     free(memory);
     return 0;
 }

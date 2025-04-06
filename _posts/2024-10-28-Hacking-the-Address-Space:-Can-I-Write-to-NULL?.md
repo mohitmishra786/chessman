@@ -1,41 +1,41 @@
 ---
 layout: post
---- 
+---
 
 ### Table of Contents
 
-1. **Introduction**  
-   - Overview of memory management and address space layout  
-   - Focus on null pointer behavior and low memory regions  
-2. **Memory Layout Fundamentals**  
-   - **Virtual Memory Address Space**  
-     - Isolation of process address spaces  
-     - Avoidance of low memory addresses  
-     - Purposes: Null pointer detection, security, and ASLR  
-   - **Memory Mapping and Protection**  
-     - Page tables and protection flags  
-     - Role of the Memory Management Unit (MMU)  
-3. **Practical Implementation: Memory Mapping Experiments**  
-   - **Basic Memory Mapping Example**  
-     - Code example: Mapping and accessing memory  
-     - Expected output and analysis  
-   - **Advanced Memory Access Patterns**  
-     - Code example: Memory protection and signal handling  
-     - Expected output and analysis  
-4. **Memory Layout Analysis**  
-   - **Using objdump**  
-     - Code example: Visualizing memory layout  
-     - Analysis of memory segments (text, data, stack, heap)  
-5. **Memory Safety and Null Pointer Protection**  
-   - Mechanisms to prevent null pointer dereferences  
-   - Page protection, MMU traps, and compiler optimizations  
-6. **Practical Implications and Best Practices**  
-7. **Conclusion**  
+1. **Introduction**
+   - Overview of memory management and address space layout
+   - Focus on null pointer behavior and low memory regions
+2. **Memory Layout Fundamentals**
+   - **Virtual Memory Address Space**
+     - Isolation of process address spaces
+     - Avoidance of low memory addresses
+     - Purposes: Null pointer detection, security, and ASLR
+   - **Memory Mapping and Protection**
+     - Page tables and protection flags
+     - Role of the Memory Management Unit (MMU)
+3. **Practical Implementation: Memory Mapping Experiments**
+   - **Basic Memory Mapping Example**
+     - Code example: Mapping and accessing memory
+     - Expected output and analysis
+   - **Advanced Memory Access Patterns**
+     - Code example: Memory protection and signal handling
+     - Expected output and analysis
+4. **Memory Layout Analysis**
+   - **Using objdump**
+     - Code example: Visualizing memory layout
+     - Analysis of memory segments (text, data, stack, heap)
+5. **Memory Safety and Null Pointer Protection**
+   - Mechanisms to prevent null pointer dereferences
+   - Page protection, MMU traps, and compiler optimizations
+6. **Practical Implications and Best Practices**
+7. **Conclusion**
 
---- 
+---
 ## Introduction
 
-Memory management and address space layout are fundamental concepts in operating systems and low-level programming. This comprehensive guide explores how modern operating systems handle memory addressing, with a particular focus on null pointer behavior and the lowest regions of virtual memory. We'll dive deep into memory mapping, segmentation faults, and practical experiments with memory allocation.
+Memory management and address space layout are fundamental concepts in operating systems and low-level programming. This comprehensive guide explores how modern operating systems handle memory addressing, with a particular focus on null pointer behavior and the lowest regions of virtual memory. We'll understand memory mapping, segmentation faults, and practical experiments with memory allocation.
 
 ## Memory Layout Fundamentals
 
@@ -89,16 +89,16 @@ void print_memory_info(void* addr) {
 
 int main() {
     // Attempt 1: Let the system choose the address
-    void* addr1 = mmap(NULL, 
-                      PAGE_SIZE, 
+    void* addr1 = mmap(NULL,
+                      PAGE_SIZE,
                       PROT_READ | PROT_WRITE,
                       MAP_PRIVATE | MAP_ANONYMOUS,
-                      -1, 
+                      -1,
                       0);
-    
+
     printf("\nAttempt 1 - System-chosen address:\n");
     print_memory_info(addr1);
-    
+
     // Attempt 2: Request a specific low address
     void* addr2 = mmap((void*)0x1000,
                       PAGE_SIZE,
@@ -106,14 +106,14 @@ int main() {
                       MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED_NOREPLACE,
                       -1,
                       0);
-    
+
     printf("\nAttempt 2 - Requested low address (0x1000):\n");
     print_memory_info(addr2);
-    
+
     // Clean up
     if (addr1 != MAP_FAILED) munmap(addr1, PAGE_SIZE);
     if (addr2 != MAP_FAILED) munmap(addr2, PAGE_SIZE);
-    
+
     return 0;
 }
 ```
@@ -163,7 +163,7 @@ void setup_signal_handler() {
     sa.sa_flags = SA_SIGINFO;
     sigemptyset(&sa.sa_mask);
     sa.sa_sigaction = handler;
-    
+
     if (sigaction(SIGSEGV, &sa, NULL) == -1) {
         perror("sigaction");
         exit(EXIT_FAILURE);
@@ -176,7 +176,7 @@ void setup_signal_handler() {
 
 int main() {
     setup_signal_handler();
-    
+
     // Map a page with read/write permissions
     void* addr = mmap(NULL,
                      PAGE_SIZE,
@@ -184,31 +184,31 @@ int main() {
                      MAP_PRIVATE | MAP_ANONYMOUS,
                      -1,
                      0);
-    
+
     if (addr == MAP_FAILED) {
         perror("mmap");
         exit(EXIT_FAILURE);
     }
-    
+
     printf("Successfully mapped page at: %p\n", addr);
-    
+
     // Write to the page
     *(int*)addr = 42;
     printf("Successfully wrote to page\n");
-    
+
     // Change permissions to read-only
     if (mprotect(addr, PAGE_SIZE, PROT_READ) == -1) {
         perror("mprotect");
         exit(EXIT_FAILURE);
     }
-    
+
     printf("Changed page permissions to read-only\n");
     printf("Value at address: %d\n", *(int*)addr);
-    
+
     // Attempt to write (should trigger SIGSEGV)
     printf("Attempting to write to read-only memory...\n");
     *(int*)addr = 43;
-    
+
     // Should never reach here
     munmap(addr, PAGE_SIZE);
     return 0;
@@ -242,7 +242,7 @@ To analyze the memory layout of compiled programs, we can use tools like `objdum
 ```c
 #include <stdio.h>
 #include <stdint.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 
 const char global_str[] = "Global string";
 static int static_var = 42;
@@ -261,7 +261,7 @@ int main() {
         return 1;
     }
     *heap_var = 300;
-    
+
     printf("Memory Layout Analysis\n");
     printf("=====================\n");
     print_address("main function", (void*)main);
@@ -271,7 +271,7 @@ int main() {
     print_address("local static", &local_static);
     print_address("local variable", &local_var);
     print_address("heap variable", heap_var);
-    
+
     free(heap_var);
     return 0;
 }

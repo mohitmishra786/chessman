@@ -1,7 +1,7 @@
 ---
 layout: post
 ---
-Socket programming is a fundamental aspect of network programming that allows applications to communicate over a network. In this comprehensive guide, we'll dive deep into the world of socket programming in C, exploring its concepts, API calls, and practical implementations. Whether you're a beginner or looking to refresh your knowledge, this post will provide you with a solid foundation in socket programming.
+Socket programming is a fundamental aspect of network programming that allows applications to communicate over a network. In this article, we'll get into the world of socket programming in C, exploring its concepts, API calls, and practical implementations. Whether you're a beginner or looking to refresh your knowledge, this post will provide you with a solid foundation in socket programming.
 
 ## Table of Contents
 1. [Introduction to Socket Programming](#introduction-to-socket-programming)
@@ -445,22 +445,22 @@ Let's look at a more complex example that demonstrates a simple HTTP server:
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <netdb.h> 
+#include <netdb.h>
 
 #define MAX_BUFFER_SIZE 8192
 #define BACKLOG 10
 
 ssize_t send_all(int sockfd, const void *buf, size_t len, int flags) {
     size_t total_sent = 0;
-    const char *ptr = (const char *)buf; 
+    const char *ptr = (const char *)buf;
 
     while (total_sent < len) {
         ssize_t bytes_sent = send(sockfd, ptr, len - total_sent, flags);
-        if (bytes_sent <= 0) { 
+        if (bytes_sent <= 0) {
             if (bytes_sent == 0) {
                 return total_sent;
             } else {
-                perror("send"); 
+                perror("send");
                 return -1;
             }
         }
@@ -545,14 +545,14 @@ int main(int argc, char *argv[]) {
         int client_fd = accept(sockfd, (struct sockaddr *)&client_addr, &addr_size);
         if (client_fd == -1) {
             perror("accept");
-            continue; 
+            continue;
         }
 
         handle_client(client_fd);
         close(client_fd);
     }
 
-    close(sockfd); 
+    close(sockfd);
     return 0;
 }
 ```

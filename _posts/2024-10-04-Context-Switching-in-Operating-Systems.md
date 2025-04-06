@@ -15,7 +15,7 @@ layout: post
 
 ## 1. Introduction
 
-Context switching is one of the most fundamental operations in modern operating systems, enabling multitasking by allowing multiple processes to share a single CPU. While it might seem magical from the user perspective, under the hood it's a complex dance of hardware and software working in perfect harmony. In this deep dive, we'll peel back the layers and examine exactly what happens when your OS performs a context switch, right down to the register level.
+Context switching is one of the most fundamental operations in modern operating systems, enabling multitasking by allowing multiple processes to share a single CPU. While it might seem magical from the user perspective, under the hood it's a complex dance of hardware and software working in perfect harmony. In this article, we'll peel back the layers and examine exactly what happens when your OS performs a context switch, right down to the register level.
 
 ## 2. What is a Process Context?
 
@@ -31,13 +31,13 @@ struct process_context {
     uint64_t r12, r13, r14, r15;    // Extended registers
     uint64_t rip;                   // Instruction pointer
     uint64_t rflags;                // CPU flags
-    
+
     // Segment Registers
     uint16_t cs, ds, es, fs, gs, ss;
-    
+
     // Control Registers
     uint64_t cr3;                   // Page table base register
-    
+
     // FPU/SSE State
     uint8_t fpu_state[512];         // FPU and SSE registers state
 };
@@ -64,24 +64,24 @@ A context switch can occur for several reasons:
 Here's a simplified view of the context switch handler:
 
 ```c
-void context_switch(struct process_context* old_context, 
+void context_switch(struct process_context* old_context,
                    struct process_context* new_context) {
     // 1. Save CPU registers of current process
     save_cpu_state(old_context);
-    
+
     // 2. Save FPU/SSE state if used
     if (fpu_used()) {
         save_fpu_state(old_context->fpu_state);
     }
-    
+
     // 3. Switch to new page tables
     load_cr3(new_context->cr3);
-    
+
     // 4. Restore FPU/SSE state if necessary
     if (fpu_used()) {
         restore_fpu_state(new_context->fpu_state);
     }
-    
+
     // 5. Restore CPU registers of new process
     restore_cpu_state(new_context);
 }
@@ -159,45 +159,45 @@ Let's look at a more detailed context switch implementation:
 ```c
 void schedule() {
     struct task_struct *prev, *next;
-    
+
     // Disable interrupts during switch
     local_irq_disable();
-    
+
     prev = current;
     next = pick_next_task();
-    
+
     if (prev != next) {
         // Update runtime statistics
         update_task_runtime_stats(prev);
-        
+
         // Switch process memory space
         switch_mm(prev->mm, next->mm);
-        
+
         // Switch kernel stacks
         switch_to(prev, next);
     }
-    
+
     local_irq_enable();
 }
 
 void switch_to(struct task_struct *prev, struct task_struct *next) {
     struct thread_struct *prev_thread = &prev->thread;
     struct thread_struct *next_thread = &next->thread;
-    
+
     // Save FPU state if necessary
     if (task_thread_info(prev)->status & TS_USEDFPU) {
         save_fpu(prev_thread);
         task_thread_info(prev)->status &= ~TS_USEDFPU;
     }
-    
+
     // Save debug registers if used
     if (unlikely(prev_thread->debugreg7)) {
         loaddebug_inactive(prev);
     }
-    
+
     // Perform actual context switch
     __switch_to(prev, next);
-    
+
     // Handle return path
     if (unlikely(task_thread_info(current)->flags & _TIF_WORK_CTXSW))
         __work_ctxsw();
@@ -222,10 +222,10 @@ void measure_context_switch() {
     int pipe_fd[2];
     char byte = 0;
     uint64_t start, end;
-    
+
     pipe(pipe_fd);
     pid = fork();
-    
+
     if (pid == 0) {  // Child
         for (int i = 0; i < ITERATIONS; i++) {
             read(pipe_fd[0], &byte, 1);
@@ -234,12 +234,12 @@ void measure_context_switch() {
         exit(0);
     } else {  // Parent
         start = rdtsc();
-        
+
         for (int i = 0; i < ITERATIONS; i++) {
             write(pipe_fd[1], &byte, 1);
             read(pipe_fd[0], &byte, 1);
         }
-        
+
         end = rdtsc();
         printf("Average context switch time: %lu cycles\n",
                (end - start) / (ITERATIONS * 2));
@@ -277,18 +277,18 @@ __switch_to(struct task_struct *prev_p, struct task_struct *next_p) {
     struct thread_struct *prev = &prev_p->thread;
     struct thread_struct *next = &next_p->thread;
     int cpu = smp_processor_id();
-    
+
     // Switch kernel page table
     switch_mm_irqs_off(prev->mm, next->mm, next_p);
-    
+
     // Switch kernel stack
     this_cpu_write(current_task, next_p);
     this_cpu_write(cpu_current_top_of_stack, task_top_of_stack(next_p));
-    
+
     // Load TLS and update syscall entry/exit
     load_TLS(next, cpu);
     arch_update_syscall_work(next_p);
-    
+
     // Restore all registers
     return __switch_to_asm(prev_p, next_p);
 }
@@ -307,7 +307,7 @@ struct thread_context {
     uint64_t rbp;                   // Base pointer
     uint64_t rip;                   // Instruction pointer
     uint64_t r12, r13, r14, r15;    // Callee-saved registers
-    
+
     // Thread-local storage
     uint64_t fs_base;              // FS segment base address
     uint64_t gs_base;              // GS segment base address
@@ -332,7 +332,7 @@ void thread_switch(struct thread_context* old_thread,
         :
         : "memory"
     );
-    
+
     // Switch to new thread
     __asm__ volatile (
         "movq %0, %%rsp\n"
@@ -368,16 +368,16 @@ void numa_aware_context_switch(struct process_context* old_context,
                              struct process_context* new_context,
                              struct numa_context* numa_ctx) {
     int target_node;
-    
+
     // Determine optimal NUMA node
     target_node = find_optimal_numa_node(new_context);
-    
+
     if (target_node != numa_ctx->current_node) {
         // Switch to page tables for target node
         load_cr3(numa_ctx->per_node_page_tables[target_node]);
         numa_ctx->current_node = target_node;
     }
-    
+
     // Perform regular context switch
     context_switch(old_context, new_context);
 }

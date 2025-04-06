@@ -16,7 +16,7 @@ layout: post
 
 ## Introduction
 
-Modern compilers are marvels of software engineering, capable of transforming our high-level code into highly optimized machine instructions. One particularly fascinating aspect of compiler optimization is constant folding - a technique that seems almost magical when you first encounter it. In this article, we'll explore how compilers like GCC can transform seemingly straightforward operations like `x * 2` into optimized assembly code, and dive deep into the intelligence behind these optimizations.
+Modern compilers are marvels of software engineering, capable of transforming our high-level code into highly optimized machine instructions. One particularly fascinating aspect of compiler optimization is constant folding - a technique that seems almost magical when you first encounter it. In this article, we'll explore how compilers like GCC can transform seemingly straightforward operations like `x * 2` into optimized assembly code, and understand the intelligence behind these optimizations.
 
 Consider this simple piece of code:
 ```c
@@ -356,7 +356,7 @@ For those interested in diving deeper into compiler optimizations, here are some
    - "A Catalogue of Optimizing Transformations" by Frances E. Allen
    - "The Implementation of Functional Programming Languages" by Simon Peyton Jones
 
-## Conclusion 
+## Conclusion
 
 Compiler optimizations like constant folding represent the culmination of decades of computer science research and engineering. Understanding these optimizations helps us write better code and appreciate the sophistication of modern compilation tools.
 

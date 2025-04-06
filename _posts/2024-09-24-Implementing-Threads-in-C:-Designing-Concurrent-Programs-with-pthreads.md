@@ -16,7 +16,7 @@ layout: post
 10. [Conclusion](#conclusion)
 
 ## Introduction
-In the world of modern computing, the ability to perform multiple tasks simultaneously is not just a luxury—it's a necessity. Enter threads: a powerful, fascinating, and sometimes daunting tool in a programmer's arsenal. Today, we're going to embark on a journey into the realm of concurrent programming, specifically focusing on threads in C.
+In the world of modern computing, the ability to perform multiple tasks simultaneously is not just a luxury—it's a necessity. Enter threads: a powerful, fascinating, and sometimes daunting tool in a programmer's arsenal. Today, we're going to get on a journey into the world of concurrent programming, specifically focusing on `threads` in C.
 
 ## Understanding Threads: The Basics
 
@@ -248,6 +248,6 @@ Understanding and mitigating these issues is crucial for developing robust multi
 
 Threads offer a powerful way to achieve concurrency within a single process, allowing for efficient utilization of modern multi-core processors. However, with great power comes great responsibility. Proper synchronization, careful design, and thorough testing are essential when working with threads.
 
-As we've seen, even simple operations like incrementing a counter can become complex in a multithreaded environment. As you delve deeper into concurrent programming, you'll encounter more advanced concepts and techniques for managing shared resources and coordinating thread execution.
+As we've seen, even simple operations like incrementing a counter can become complex in a multithreaded environment. As you try to get into concurrent programming, you'll encounter more advanced concepts and techniques for managing shared resources and coordinating thread execution.
 
 Remember, the key to successful multithreaded programming lies not just in understanding the APIs and techniques, but also in developing a mindset that anticipates and addresses the unique challenges of concurrent execution.

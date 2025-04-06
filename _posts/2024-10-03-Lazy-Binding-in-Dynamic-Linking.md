@@ -307,7 +307,7 @@ These techniques can be used in conjunction with or as alternatives to lazy bind
 
 Lazy binding is a powerful optimization technique that plays a crucial role in the performance and flexibility of dynamically linked programs. By deferring the resolution of function addresses until they are actually needed, lazy binding helps to improve startup times and reduce memory usage, particularly for large applications with many dependencies.
 
-Throughout this deep dive, we've explored the key components of lazy binding, including the Global Offset Table (GOT), Procedure Linkage Table (PLT), and the dynamic linker. We've walked through the step-by-step process of how lazy binding works, from the initial function call to the final execution of the resolved function.
+Throughout this article, we've explored the key components of lazy binding, including the Global Offset Table (GOT), Procedure Linkage Table (PLT), and the dynamic linker. We've walked through the step-by-step process of how lazy binding works, from the initial function call to the final execution of the resolved function.
 
 We've also examined the low-level details by looking at assembly code and discussing how to analyze the lazy binding process using debugging tools. This low-level understanding is crucial for developers working on performance-critical applications or those dealing with complex linking scenarios.
 

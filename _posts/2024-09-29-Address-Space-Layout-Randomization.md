@@ -26,7 +26,7 @@ The primary goal of ASLR is to introduce unpredictability in the memory layout, 
 
 ## 2. Virtual vs. Physical Addresses
 
-Before delving deeper into ASLR, it's essential to understand the distinction between virtual and physical addresses:
+Before getting into ASLR, it's essential to understand the distinction between virtual and physical addresses:
 
 - **Virtual Addresses**: These are the addresses that a process sees and uses. They provide an abstraction layer, allowing each process to have its own continuous address space, typically ranging from 0x00000000 to 0xFFFFFFFF on 32-bit systems or 0x0000000000000000 to 0xFFFFFFFFFFFFFFFF on 64-bit systems.
 

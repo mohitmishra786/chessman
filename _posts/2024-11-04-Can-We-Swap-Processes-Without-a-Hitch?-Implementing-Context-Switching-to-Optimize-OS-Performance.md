@@ -28,7 +28,7 @@ layout: post
 
 ## 1. Introduction
 
-Context switching is one of the most fundamental operations in modern operating systems, enabling multitasking and concurrent execution of processes. While it appears seamless to end-users, the underlying mechanism is intricate and involves complex interactions between hardware and software. This article delves deep into the internals of context switching, examining its theoretical foundations and practical implementation details.
+Context switching is one of the most fundamental operations in modern operating systems, enabling multitasking and concurrent execution of processes. While it appears seamless to end-users, the underlying mechanism is intricate and involves complex interactions between hardware and software. This article explains the internals of context switching, examining its theoretical foundations and practical implementation details.
 
 ## 2. What is Context Switching?
 
@@ -48,13 +48,13 @@ struct process_context {
     uint64_t r12, r13, r14, r15;    // Extended registers
     uint64_t rip;                   // Instruction pointer
     uint64_t rflags;                // CPU flags
-    
+
     // Segment Registers
     uint16_t cs, ds, es, fs, gs, ss;
-    
+
     // Control Registers
     uint64_t cr3;                   // Page table base register
-    
+
     // FPU/SSE State
     uint8_t fpu_state[512];         // FPU and SSE registers state
 };
@@ -81,24 +81,24 @@ A context switch can occur for several reasons:
 Here’s a simplified view of the context switch handler:
 
 ```c
-void context_switch(struct process_context* old_context, 
+void context_switch(struct process_context* old_context,
                    struct process_context* new_context) {
     // 1. Save CPU registers of current process
     save_cpu_state(old_context);
-    
+
     // 2. Save FPU/SSE state if used
     if (fpu_used()) {
         save_fpu_state(old_context->fpu_state);
     }
-    
+
     // 3. Switch to new page tables
     load_cr3(new_context->cr3);
-    
+
     // 4. Restore FPU/SSE state if necessary
     if (fpu_used()) {
         restore_fpu_state(new_context->fpu_state);
     }
-    
+
     // 5. Restore CPU registers of new process
     restore_cpu_state(new_context);
 }
@@ -125,14 +125,14 @@ void save_cpu_state(struct process_context* ctx) {
 
 ## 4. Process Control Block (PCB)
 
-The Process Control Block (PCB), also known as the process descriptor, is a data structure that contains all the information needed to save and restore a process's context. Here's a typical PCB structure in C: 
+The Process Control Block (PCB), also known as the process descriptor, is a data structure that contains all the information needed to save and restore a process's context. Here's a typical PCB structure in C:
 
 ```c
 struct process_control_block {
     // Process identification
     pid_t pid;                    // Process ID
     pid_t parent_pid;            // Parent process ID
-    
+
     // CPU registers
     struct cpu_context {
         unsigned long rax, rbx, rcx, rdx;    // General purpose registers
@@ -142,7 +142,7 @@ struct process_control_block {
         unsigned long rflags;                // CPU flags
         unsigned long cs, ss, ds, es, fs, gs; // Segment registers
     } cpu_regs;
-    
+
     // Memory management
     struct mm_struct {
         unsigned long pgd;        // Page Global Directory
@@ -151,7 +151,7 @@ struct process_control_block {
         unsigned long start_stack;           // Stack segment
         unsigned long start_brk, brk;        // Heap segment
     } mm;
-    
+
     // Process state
     enum process_state {
         TASK_RUNNING,
@@ -160,16 +160,16 @@ struct process_control_block {
         TASK_STOPPED,
         TASK_ZOMBIE
     } state;
-    
+
     // Scheduling information
     int priority;
     int static_priority;
     unsigned long time_slice;
     unsigned long total_time;    // Total CPU time used
-    
+
     // File management
     struct files_struct *files;  // Open file descriptors
-    
+
     // Signal handling
     sigset_t signal_mask;       // Blocked signals
     struct sighand_struct *sighand;  // Signal handlers
@@ -246,16 +246,16 @@ Here's a simplified implementation of a timer interrupt handler:
 void timer_interrupt_handler(void) {
     // Disable interrupts
     cli();
-    
+
     // Save current process context
     save_context(&current_process->cpu_regs);
-    
+
     // Update process statistics
     current_process->total_time += time_since_last_switch;
-    
+
     // Run scheduler to select next process
     schedule();
-    
+
     // Enable interrupts
     sti();
 }
@@ -293,16 +293,16 @@ The context switch process involves several steps:
 Here's a low-level implementation of the context switch mechanism:
 
 ```c
-void context_switch(struct process_control_block *prev, 
+void context_switch(struct process_control_block *prev,
                    struct process_control_block *next) {
     // Save CPU registers of current process
     save_cpu_context(&prev->cpu_regs);
-    
+
     // Save FPU state if necessary
     if (prev->cpu_regs.fpu_used) {
         save_fpu_state(&prev->fpu_state);
     }
-    
+
     // Update page table (CR3 register on x86)
     unsigned long next_pgd = next->mm.pgd;
     asm volatile(
@@ -311,15 +311,15 @@ void context_switch(struct process_control_block *prev,
         : "r" (next_pgd)
         : "memory"
     );
-    
+
     // Load CPU registers of new process
     restore_cpu_context(&next->cpu_regs);
-    
+
     // Restore FPU state if necessary
     if (next->cpu_regs.fpu_used) {
         restore_fpu_state(&next->fpu_state);
     }
-    
+
     // Update TSS (Task State Segment)
     update_tss(next);
 }
@@ -441,26 +441,26 @@ struct pcb {
     uid_t uid;
     gid_t gid;
     char name[16];  // Added name field for better identification
-    
+
     enum process_state state;
     struct cpu_registers regs;
     struct mm_context mm;
     struct io_context io;
     struct sched_info sched;
-    
+
     struct pcb *parent;
     struct pcb *children;
     struct pcb *siblings;
-    
+
     sigset_t blocked;
     sigset_t pending;
     struct sighand_struct *sighand;
-    
+
     unsigned long flags;
-    
+
     struct rusage rusage;
     struct rusage rusage_children;
-    
+
     uint64_t voluntary_switches;
     uint64_t involuntary_switches;
 };
@@ -501,7 +501,7 @@ static void save_cpu_state(struct cpu_registers *regs) {
 
 static void restore_cpu_state(struct cpu_registers *regs) {
     // Simulate restoring CPU state
-    printf("Restoring CPU state: RAX=%lu, RBX=%lu, RCX=%lu\n", 
+    printf("Restoring CPU state: RAX=%lu, RBX=%lu, RCX=%lu\n",
            regs->rax, regs->rbx, regs->rcx);
 }
 
@@ -519,7 +519,7 @@ static void restore_fpu_state(struct cpu_registers *regs) {
 
 static void switch_mm_context(struct pcb *prev, struct pcb *next) {
     if (prev->mm.pgd != next->mm.pgd) {
-        printf("Memory context switch: %s (PGD %lx) -> %s (PGD %lx)\n", 
+        printf("Memory context switch: %s (PGD %lx) -> %s (PGD %lx)\n",
                prev->name, prev->mm.pgd, next->name, next->mm.pgd);
     }
 }
@@ -527,7 +527,7 @@ static void switch_mm_context(struct pcb *prev, struct pcb *next) {
 struct pcb* scheduler_select_next(void) {
     static int current_index = 0;
     int starting_index = current_index;
-    
+
     do {
         current_index = (current_index + 1) % num_processes;
         if (processes[current_index].state != TASK_RUNNING) {
@@ -535,7 +535,7 @@ struct pcb* scheduler_select_next(void) {
         }
         return &processes[current_index];
     } while (current_index != starting_index);
-    
+
     return current_process; // Fallback to current if no other process is ready
 }
 
@@ -544,7 +544,7 @@ static void update_process_accounting(struct pcb *prev, struct pcb *next) {
     prev->sched.total_time += current_time - prev->sched.last_ran;
     next->sched.last_ran = current_time;
     next->sched.time_slice = calculate_time_slice(next);
-    
+
     if (prev->state == TASK_INTERRUPTIBLE) {
         prev->voluntary_switches++;
     } else {
@@ -554,12 +554,12 @@ static void update_process_accounting(struct pcb *prev, struct pcb *next) {
 
 static void update_perf_stats(uint64_t switch_start_time) {
     uint64_t switch_time = get_current_time() - switch_start_time;
-    
+
     global_stats.context_switches++;
-    global_stats.avg_switch_time = 
-        (global_stats.avg_switch_time * (global_stats.context_switches - 1) + 
+    global_stats.avg_switch_time =
+        (global_stats.avg_switch_time * (global_stats.context_switches - 1) +
          switch_time) / global_stats.context_switches;
-    
+
     if (switch_time > global_stats.max_switch_time) {
         global_stats.max_switch_time = switch_time;
     }
@@ -567,39 +567,39 @@ static void update_perf_stats(uint64_t switch_start_time) {
 
 int context_switch(struct pcb *prev, struct pcb *next) {
     uint64_t switch_start_time = get_current_time();
-    
-    printf("\nContext switch: %s (PID %d) -> %s (PID %d)\n", 
+
+    printf("\nContext switch: %s (PID %d) -> %s (PID %d)\n",
            prev->name, prev->pid, next->name, next->pid);
-    
+
     save_cpu_state(&prev->regs);
     save_fpu_state(&prev->regs);
-    
+
     prev->state = TASK_INTERRUPTIBLE;
     next->state = TASK_RUNNING;
-    
+
     switch_mm_context(prev, next);
     update_process_accounting(prev, next);
-    
+
     restore_fpu_state(&next->regs);
     restore_cpu_state(&next->regs);
-    
+
     current_process = next;
     update_perf_stats(switch_start_time);
-    
+
     return 0;
 }
 
 void timer_interrupt_handler(void) {
     struct pcb *prev = current_process;
     struct pcb *next;
-    
+
     printf("\nTimer interrupt: Current process = %s\n", prev->name);
-    
+
     // Force a switch after time slice expires or every few cycles
     if (--prev->sched.time_slice == 0 || (rand() % 3 == 0)) {
         printf("Time slice expired for %s\n", prev->name);
         next = scheduler_select_next();
-        
+
         if (next != prev) {
             context_switch(prev, next);
         } else {
@@ -607,7 +607,7 @@ void timer_interrupt_handler(void) {
             printf("No other processes ready, continuing with %s\n", prev->name);
         }
     } else {
-        printf("Remaining time slice for %s: %lu\n", 
+        printf("Remaining time slice for %s: %lu\n",
                prev->name, prev->sched.time_slice);
     }
 }
@@ -618,66 +618,66 @@ static void initialize_process(struct pcb *proc, const char *name, int priority)
     proc->uid = getuid();
     proc->gid = getgid();
     snprintf(proc->name, sizeof(proc->name), "%s", name);
-    
+
     proc->state = TASK_RUNNING;
     proc->sched.priority = priority;
     proc->sched.time_slice = calculate_time_slice(proc);
     proc->sched.last_ran = get_current_time();
-    
+
     // Simulate different memory contexts
     proc->mm.pgd = (uint64_t)rand() << 32 | rand();
     proc->regs.fpu_used = (rand() % 2) == 0;
-    
+
     num_processes++;
 }
 
 int main(void) {
     // Adding seed for random number generation
     srand(time(NULL));
-    
+
     printf("Context Switch Simulation Starting\n");
     printf("==================================\n\n");
-    
+
     // Initialize multiple processes with different priorities
     initialize_process(&processes[0], "Init", 2);
     initialize_process(&processes[1], "Web_Server", 1);
     initialize_process(&processes[2], "Database", 0);
     initialize_process(&processes[3], "Backup", 3);
-    
+
     current_process = &processes[0];
-    
+
     printf("Initialized Processes:\n");
     for (int i = 0; i < num_processes; i++) {
-        printf("- %s (PID: %d, Priority: %d, Initial time slice: %lu)\n", 
-               processes[i].name, processes[i].pid, 
+        printf("- %s (PID: %d, Priority: %d, Initial time slice: %lu)\n",
+               processes[i].name, processes[i].pid,
                processes[i].sched.priority,
                processes[i].sched.time_slice);
     }
     printf("\nStarting simulation...\n");
     printf("==================================\n");
-    
+
     // Simulate several timer interrupts
     for (int i = 0; i < 10; i++) {
         printf("\nSimulation Cycle %d\n", i + 1);
         printf("-----------------\n");
-        
+
         timer_interrupt_handler();
-        
+
         printf("\nStatistics after cycle %d:\n", i + 1);
         printf("Context switches: %lu\n", global_stats.context_switches);
         printf("Average switch time: %lu ns\n", global_stats.avg_switch_time);
         printf("Maximum switch time: %lu ns\n", global_stats.max_switch_time);
-        
+
         usleep(100000); // Sleep for 100ms between simulations
     }
-    
+
     printf("\nSimulation Complete\n");
     printf("==================================\n");
     printf("Final Statistics:\n");
     printf("Total context switches: %lu\n", global_stats.context_switches);
     printf("Final average switch time: %lu ns\n", global_stats.avg_switch_time);
     printf("Maximum switch time: %lu ns\n", global_stats.max_switch_time);
-    
+
     return 0;
 }
 ```
@@ -848,28 +848,28 @@ Let's examine a complete context switch scenario:
 SYSCALL_DEFINE4(sched_yield, void) {
     struct task_struct *prev, *next;
     struct rq *rq;
-    
+
     // Get current run queue
     rq = this_rq();
     prev = rq->curr;
-    
+
     // Find next task to run
     next = pick_next_task(rq, prev);
     if (next == prev)
         return 0;
-    
+
     // Prepare for context switch
     rq->curr = next;
     ++rq->nr_switches;
-    
+
     // Perform the actual switch
     struct context_switch_flags flags = {
         .save_fpu = test_thread_flag(TIF_NEED_FPU_LOAD),
         .save_vec = test_thread_flag(TIF_NEED_VEC_LOAD)
     };
-    
+
     perform_context_switch(prev, next, flags);
-    
+
     return 0;
 }
 ```
@@ -897,22 +897,22 @@ void update_context_switch_stats(struct process_control_block *prev,
                                struct process_control_block *next,
                                unsigned long switch_time) {
     struct context_switch_stats *stats = &system_stats.cs_stats;
-    
+
     // Update counters
     stats->total_switches++;
     if (prev->state == TASK_INTERRUPTIBLE)
         stats->voluntary_switches++;
     else
         stats->involuntary_switches++;
-    
+
     // Update timing statistics
-    stats->avg_switch_time = 
-        (stats->avg_switch_time * (stats->total_switches - 1) + 
+    stats->avg_switch_time =
+        (stats->avg_switch_time * (stats->total_switches - 1) +
          switch_time) / stats->total_switches;
-    
+
     if (switch_time > stats->max_switch_time)
         stats->max_switch_time = switch_time;
-    
+
     // Update cache and TLB statistics
     update_cache_stats();
     update_tlb_stats();

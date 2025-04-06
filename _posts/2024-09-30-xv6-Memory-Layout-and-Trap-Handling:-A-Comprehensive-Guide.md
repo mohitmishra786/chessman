@@ -20,7 +20,7 @@ layout: post
 
 ## Introduction
 
-The xv6 operating system, a reimplementation of Unix V6 for educational purposes, provides an excellent platform for understanding the intricate workings of modern operating systems. In this comprehensive guide, we'll dive deep into the memory layout and trap handling mechanisms of xv6, exploring how it manages the transition between user and kernel modes, handles interrupts, and organizes its virtual and physical memory spaces.
+The xv6 operating system, a reimplementation of Unix V6 for educational purposes, provides an excellent platform for understanding the intricate workings of modern operating systems. In this article, we'll get into the memory layout and trap handling mechanisms of xv6, exploring how it manages the transition between user and kernel modes, handles interrupts, and organizes its virtual and physical memory spaces.
 
 ## Memory Organization in xv6
 
@@ -118,7 +118,7 @@ Here's a simplified version of the trampoline code in RISC-V assembly:
 trampoline:
 .align 4
 .globl uservec
-uservec:    
+uservec:
     # save user registers
     csrw sscratch, a0
     la a0, TRAPFRAME
@@ -329,10 +329,10 @@ usertrap(void)
   w_stvec((uint64)kernelvec);
 
   struct proc *p = myproc();
-  
+
   // save user program counter.
   p->trapframe->epc = r_sepc();
-  
+
   if(r_scause() == 8){
     // system call
 
@@ -379,4 +379,4 @@ usertrap(void)
 
 xv6's memory layout and trap handling mechanisms demonstrate the intricate dance between hardware and software in modern operating systems. By carefully managing virtual and physical memory, and providing a robust trap handling system, xv6 ensures safe and efficient execution of user programs while maintaining the integrity of the kernel.
 
-Understanding these concepts is crucial for anyone looking to delve deeper into operating system design and implementation. The xv6 operating system provides an excellent educational platform for exploring these concepts in a relatively simple yet realistic environment.
+Understanding these concepts is crucial for anyone looking to get into operating system design and implementation. The xv6 operating system provides an excellent educational platform for exploring these concepts in a relatively simple yet realistic environment.
