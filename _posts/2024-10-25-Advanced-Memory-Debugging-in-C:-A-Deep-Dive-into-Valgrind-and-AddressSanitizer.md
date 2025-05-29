@@ -12,7 +12,6 @@ layout: post
 7. [Performance Considerations](#performance-considerations)
 8. [Tool Comparison](#tool-comparison)
 9. [Best Practices](#best-practices)
-10. [Architecture Overview](#architecture-overview)
 
 ## Introduction
 
@@ -68,6 +67,8 @@ gcc -g memory_issues.c -o memory_issues
 ```
 
 Running this program might appear to work normally, which is exactly what makes memory bugs so dangerous. They can corrupt memory without immediate visible effects.
+
+[![](https://mermaid.ink/img/pako:eNqFU11PqzAY_ivkvcYF6hgfFyfRuQtNTIwu5-KwXVSooxFa8lKic9l_t9Cy1RONTcj78bTP-_BAD1DIkkEGL7V8KyqKyltfb4SnV9c_75C2lfeAUieN6Q7rSfZYsNwEb6kJtmfwmguK-9wEp__YC8Ubltvord5Z0Ssuhd3DRGmS_6b_pfUO-QQO6-52nevHWyMVXU0djlFcRUv5FuYmeveskV90XAla7zve5VPircSOC_aLjKsnKs4kt6JT2DdMqHwpm5bXDJ3e95LIj5KsJeTkzbJixWv3vSLr-sXFH2u1aZt8bFsW95CDaudMb7BwaFjDLLspRmAyyCAnu8YRrJWownyFKNFW2x9Unn0x0Ll2xhN3PHFfwyJT5YwnX8eDD_pHKSHT7MyHhmFDhxIOA8MGVMW0KZDptKT4uoGNOOozLRX_pGymYyj7XQXZC607XfVtSRW74XS4AKct-oswXEqtCLJ0ZIDsAO-QzcPLWRhFSbyIUpJcJkHswx6yYBbE8TxaBFG6CJJEZ0cfPsah4SwM0jQMYrKI5jGZh8QHVnIl8d7cy_F6Hj8BR1winQ?type=png)](https://mermaid.live/edit#pako:eNqFU11PqzAY_ivkvcYF6hgfFyfRuQtNTIwu5-KwXVSooxFa8lKic9l_t9Cy1RONTcj78bTP-_BAD1DIkkEGL7V8KyqKyltfb4SnV9c_75C2lfeAUieN6Q7rSfZYsNwEb6kJtmfwmguK-9wEp__YC8Ubltvord5Z0Ssuhd3DRGmS_6b_pfUO-QQO6-52nevHWyMVXU0djlFcRUv5FuYmeveskV90XAla7zve5VPircSOC_aLjKsnKs4kt6JT2DdMqHwpm5bXDJ3e95LIj5KsJeTkzbJixWv3vSLr-sXFH2u1aZt8bFsW95CDaudMb7BwaFjDLLspRmAyyCAnu8YRrJWownyFKNFW2x9Unn0x0Ll2xhN3PHFfwyJT5YwnX8eDD_pHKSHT7MyHhmFDhxIOA8MGVMW0KZDptKT4uoGNOOozLRX_pGymYyj7XQXZC607XfVtSRW74XS4AKct-oswXEqtCLJ0ZIDsAO-QzcPLWRhFSbyIUpJcJkHswx6yYBbE8TxaBFG6CJJEZ0cfPsah4SwM0jQMYrKI5jGZh8QHVnIl8d7cy_F6Hj8BR1winQ)
 
 ## Valgrind Deep Dive
 
@@ -293,41 +294,3 @@ Here's a side-by-side comparison of key features:
 5. Regular memory testing
 6. Document known issues
 7. Maintain clean baselines
-
-## Architecture Overview
-
-Here's a visualization of how these tools work:
-
-```mermaid
-flowchart TB
-    subgraph Program
-        Source[Source Code]
-        Binary[Binary]
-        Runtime[Runtime Execution]
-    end
-    
-    subgraph Valgrind
-        JIT[JIT Translation]
-        Shadow1[Shadow Memory]
-        Analysis[Analysis Engine]
-    end
-    
-    subgraph ASan
-        Instrument[Compiler Instrumentation]
-        Shadow2[Shadow Memory]
-        Runtime2[Runtime Checks]
-    end
-    
-    Source --> Binary
-    Binary --> Runtime
-    
-    Binary --> JIT
-    JIT --> Shadow1
-    Shadow1 --> Analysis
-    Analysis --> Report1[Error Report]
-    
-    Source --> Instrument
-    Instrument --> Shadow2
-    Shadow2 --> Runtime2
-    Runtime2 --> Report2[Error Report]
-```
