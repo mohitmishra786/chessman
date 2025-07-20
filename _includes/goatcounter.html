@@ -2,37 +2,31 @@
         async src="//gc.zgo.at/count.js"></script>
 
 <script>
-// Function to fetch and display view counts
-function displayViewCounts() {
-    // Get all elements with view count placeholders
-    const viewElements = document.querySelectorAll('.goatcounter-views');
-    
-    viewElements.forEach(element => {
-        const path = element.getAttribute('data-goatcounter-path') || window.location.pathname;
+// GoatCounter visitor counter implementation
+// Wait for count.js to load before calling visit_count
+var goatCounterInterval = setInterval(function() {
+    if (window.goatcounter && window.goatcounter.visit_count) {
+        clearInterval(goatCounterInterval);
         
-        // Fetch view count from GoatCounter API
-        fetch(`https://{{ site.goatcounter }}.goatcounter.com/api/v0/stats/hits?path=${encodeURIComponent(path)}`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data && data.length > 0) {
-                const totalViews = data.reduce((sum, item) => sum + item.count, 0);
-                element.textContent = totalViews;
-            } else {
-                element.textContent = '0';
-            }
-        })
-        .catch(error => {
-            console.log('Could not fetch view count:', error);
-            element.textContent = '—';
+        // Find all elements with view count placeholders
+        const viewElements = document.querySelectorAll('.goatcounter-views');
+        
+        viewElements.forEach(element => {
+            const path = element.getAttribute('data-goatcounter-path') || window.location.pathname;
+            
+            // Create a unique container for each view counter
+            const counterId = 'goatcounter-' + Math.random().toString(36).substr(2, 9);
+            element.innerHTML = '<span id="' + counterId + '">Loading...</span>';
+            
+            // Use GoatCounter's built-in visitor counter
+            window.goatcounter.visit_count({
+                append: '#' + counterId,
+                path: path,
+                type: 'html',
+                no_branding: true,
+                style: 'div { border: none; background: none; color: inherit; font-size: inherit; }'
+            });
         });
-    });
-}
-
-// Display view counts when page loads
-window.addEventListener('load', displayViewCounts);
+    }
+}, 100);
 </script> 
