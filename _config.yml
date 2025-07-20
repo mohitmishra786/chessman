@@ -57,6 +57,9 @@ plugins:
 # GitHub repository name for upvote functionality
 # repository: mohitmishra786/chessman
 
+# GoatCounter Analytics
+goatcounter: "legacy" # This is your GoatCounter site code from the script URL
+
 # github:
 #   owner_name: mohitmishra786
 #   repository_name: chessman

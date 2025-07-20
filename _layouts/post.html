@@ -42,6 +42,9 @@ layout: default
                 itemtype="http://schema.org/Person"
             ><span class="p-author h-card" itemprop="name">{{ page.author | escape }}</span></span>
             {%- endif -%}
+            {%- if site.goatcounter -%}
+            • <span id="goatcounter-view-count">Views: <span class="goatcounter-views" data-goatcounter-path="{{ page.url }}">...</span></span>
+            {%- endif -%}
         </p>
     </header>
     <div class="post-content e-content" itemprop="articleBody">

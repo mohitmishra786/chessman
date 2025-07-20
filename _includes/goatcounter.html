@@ -1,0 +1,38 @@
+<script data-goatcounter="https://{{ site.goatcounter }}.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+<script>
+// Function to fetch and display view counts
+function displayViewCounts() {
+    // Get all elements with view count placeholders
+    const viewElements = document.querySelectorAll('.goatcounter-views');
+    
+    viewElements.forEach(element => {
+        const path = element.getAttribute('data-goatcounter-path') || window.location.pathname;
+        
+        // Fetch view count from GoatCounter API
+        fetch(`https://{{ site.goatcounter }}.goatcounter.com/api/v0/stats/hits?path=${encodeURIComponent(path)}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.length > 0) {
+                const totalViews = data.reduce((sum, item) => sum + item.count, 0);
+                element.textContent = totalViews;
+            } else {
+                element.textContent = '0';
+            }
+        })
+        .catch(error => {
+            console.log('Could not fetch view count:', error);
+            element.textContent = '—';
+        });
+    });
+}
+
+// Display view counts when page loads
+window.addEventListener('load', displayViewCounts);
+</script> 
