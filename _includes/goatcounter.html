@@ -2,65 +2,20 @@
         async src="//gc.zgo.at/count.js"></script>
 
 <script>
-// GoatCounter visitor counter with proper error handling
-function initGoatCounterViews() {
-    // Check if GoatCounter loaded
-    if (!window.goatcounter || !window.goatcounter.visit_count) {
-        console.log('GoatCounter not loaded yet, retrying...');
-        return false;
-    }
-    
+// Simple GoatCounter integration without visitor counter widget
+// This avoids CSP issues while maintaining tracking functionality
+
+window.addEventListener('load', function() {
     // Find all elements with view count placeholders
     const viewElements = document.querySelectorAll('.goatcounter-views');
     
     viewElements.forEach(element => {
-        let path = element.getAttribute('data-goatcounter-path') || window.location.pathname;
-        
-        // Fix path to prevent double .html extension
-        if (path.endsWith('.html')) {
-            path = path.slice(0, -5);
-        }
-        
-        // Create a container for the counter
-        const counterId = 'gc-' + Math.random().toString(36).substr(2, 9);
-        element.innerHTML = '<span id="' + counterId + '">...</span>';
-        
-        try {
-            // Use GoatCounter's visitor counter - minimal configuration
-            window.goatcounter.visit_count({
-                append: '#' + counterId,
-                path: path,
-                type: 'html',
-                no_branding: true
-            });
-        } catch (error) {
-            console.log('GoatCounter error:', error);
-            document.getElementById(counterId).innerHTML = '<span title="Enable visitor counter in GoatCounter settings">👁️</span>';
-        }
+        // Show a simple tracking indicator instead of trying to fetch counts
+        // This avoids both CSP and 404 issues
+        element.innerHTML = '<span style="opacity: 0.7;" title="Page views tracked by GoatCounter - see dashboard for analytics">📊 Tracked</span>';
     });
     
-    return true;
-}
-
-// Try to initialize when page loads
-window.addEventListener('load', function() {
-    let attempts = 0;
-    const maxAttempts = 50; // 5 seconds max
-    
-    const checkInterval = setInterval(function() {
-        attempts++;
-        
-        if (initGoatCounterViews() || attempts >= maxAttempts) {
-            clearInterval(checkInterval);
-            
-            if (attempts >= maxAttempts) {
-                console.log('GoatCounter visitor counter failed to load');
-                // Show fallback for all view elements
-                document.querySelectorAll('.goatcounter-views').forEach(el => {
-                    el.innerHTML = '<span title="GoatCounter tracking active - enable visitor counter in settings">📊</span>';
-                });
-            }
-        }
-    }, 100);
+    // Optional: Add a message to console
+    console.log('GoatCounter tracking active. View detailed analytics at https://{{ site.goatcounter }}.goatcounter.com');
 });
 </script> 
