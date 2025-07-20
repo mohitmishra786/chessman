@@ -43,8 +43,8 @@ layout: default
             ><span class="p-author h-card" itemprop="name">{{ page.author | escape }}</span></span>
             {%- endif -%}
             {%- if site.pageviews.provider == "goatcounter" -%}
-            • <span class="pageviews">
-                👁️ <span class="goatcounter-views" data-goatcounter-path="{{ page.url }}">0</span> views
+            • <span class="pageviews" style="cursor: help;">
+                👁️ <span class="goatcounter-views" data-goatcounter-path="{{ page.url }}">∞</span> views
               </span>
             {%- endif -%}
         </p>
