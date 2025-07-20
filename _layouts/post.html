@@ -42,8 +42,10 @@ layout: default
                 itemtype="http://schema.org/Person"
             ><span class="p-author h-card" itemprop="name">{{ page.author | escape }}</span></span>
             {%- endif -%}
-            {%- if site.goatcounter -%}
-            • <span class="goatcounter-views" data-goatcounter-path="{{ page.url }}"></span>
+            {%- if site.pageviews.provider == "goatcounter" -%}
+            • <span class="pageviews">
+                👁️ <span class="goatcounter-views" data-goatcounter-path="{{ page.url }}">0</span> views
+              </span>
             {%- endif -%}
         </p>
     </header>

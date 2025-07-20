@@ -57,7 +57,20 @@ plugins:
 # GitHub repository name for upvote functionality
 # repository: mohitmishra786/chessman
 
-# GoatCounter Analytics
+# Web Analytics Settings
+analytics:
+  google:
+    id: # fill in your Google Analytics ID if needed
+  goatcounter:
+    id: legacy # Your GoatCounter site code
+
+# Page views settings
+pageviews:
+  provider: "goatcounter"
+  goatcounter:
+    code: "legacy" # Your GoatCounter site code
+
+# Legacy GoatCounter config (keeping for compatibility)
 goatcounter: "legacy" # This is your GoatCounter site code from the script URL
 
 # github:

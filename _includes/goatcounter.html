@@ -1,21 +1,73 @@
-<script data-goatcounter="https://{{ site.goatcounter }}.goatcounter.com/count"
+<script data-goatcounter="https://{{ site.analytics.goatcounter.id }}.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 
+{% if site.pageviews.provider == "goatcounter" %}
 <script>
-// Simple GoatCounter integration without visitor counter widget
-// This avoids CSP issues while maintaining tracking functionality
+// GoatCounter pageviews implementation (inspired by Chirpy theme)
+// This approach avoids CSP issues and provides reliable view counts
 
-window.addEventListener('load', function() {
-    // Find all elements with view count placeholders
-    const viewElements = document.querySelectorAll('.goatcounter-views');
+document.addEventListener('DOMContentLoaded', function() {
+    // Configuration from Jekyll
+    const goatcounterCode = '{{ site.pageviews.goatcounter.code }}';
     
-    viewElements.forEach(element => {
-        // Show a simple tracking indicator instead of trying to fetch counts
-        // This avoids both CSP and 404 issues
-        element.innerHTML = '<span style="opacity: 0.7;" title="Page views tracked by GoatCounter - see dashboard for analytics">📊 Tracked</span>';
+    // Find all elements that should display pageviews
+    const pageviewElements = document.querySelectorAll('.goatcounter-views');
+    
+    if (pageviewElements.length === 0) return;
+    
+    // Function to fetch pageviews for a specific path
+    function fetchPageviews(path, element) {
+        // Clean path - remove .html extension if present
+        let cleanPath = path;
+        if (cleanPath.endsWith('.html')) {
+            cleanPath = cleanPath.slice(0, -5);
+        }
+        
+        // GoatCounter counter endpoint (JSON API)
+        const apiUrl = `https://${goatcounterCode}.goatcounter.com/counter${encodeURIComponent(cleanPath)}.json`;
+        
+        fetch(apiUrl)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else if (response.status === 404) {
+                    // Path not found, might be new page
+                    return { count: '0' };
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            })
+            .then(data => {
+                const count = data.count || '0';
+                element.textContent = count;
+                element.title = `${count} views`;
+            })
+            .catch(error => {
+                console.debug('GoatCounter pageview fetch failed:', error.message);
+                // Show fallback
+                element.textContent = '—';
+                element.title = 'Views: Data temporarily unavailable';
+            });
+    }
+    
+    // Process each pageview element
+    pageviewElements.forEach(element => {
+        const path = element.getAttribute('data-goatcounter-path') || 
+                    element.getAttribute('data-path') || 
+                    window.location.pathname;
+        
+        // Set loading state
+        element.textContent = '...';
+        element.title = 'Loading view count...';
+        
+        // Fetch pageviews with a small delay to avoid rate limiting
+        setTimeout(() => {
+            fetchPageviews(path, element);
+        }, Math.random() * 1000); // Random delay up to 1 second
     });
-    
-    // Optional: Add a message to console
-    console.log('GoatCounter tracking active. View detailed analytics at https://{{ site.goatcounter }}.goatcounter.com');
 });
-</script> 
+
+// Console message for debugging
+console.log('GoatCounter pageviews loaded. Site: {{ site.pageviews.goatcounter.code }}');
+</script>
+{% endif %} 
