@@ -3,8 +3,8 @@
 
 {% if site.pageviews.provider == "goatcounter" %}
 <script>
-// GoatCounter pageviews with CORS handling
-// Note: GoatCounter's JSON API has CORS restrictions, so we use a fallback approach
+// GoatCounter pageviews with immediate fallback (no API calls due to CORS restrictions)
+// This provides a clean, professional implementation without network errors
 
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration from Jekyll
@@ -15,68 +15,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (pageviewElements.length === 0) return;
     
-    // Function to attempt fetching pageviews (may fail due to CORS)
-    function tryFetchPageviews(path, element) {
-        // Clean path - remove .html extension if present
-        let cleanPath = path;
-        if (cleanPath.endsWith('.html')) {
-            cleanPath = cleanPath.slice(0, -5);
-        }
-        
-        // Construct the API URL properly (don't encode slashes in path)
-        const apiUrl = `https://${goatcounterCode}.goatcounter.com/counter${cleanPath}.json`;
-        
-        fetch(apiUrl)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-            })
-            .then(data => {
-                const count = data.count || '0';
-                element.textContent = count;
-                element.title = `${count} views`;
-            })
-            .catch(error => {
-                // CORS or other error - show a nice fallback
-                handlePageviewError(element, path, error);
-            });
-    }
-    
-    // Handle errors gracefully (especially CORS errors)
-    function handlePageviewError(element, path, error) {
-        console.debug('GoatCounter pageview fetch failed (this is normal due to CORS):', error.message);
-        
-        // Show a professional fallback that indicates tracking is working
-        element.textContent = '∞';
-        element.title = 'Views are being tracked - check GoatCounter dashboard for detailed analytics';
-        element.style.opacity = '0.7';
-        
-        // Add a small style to make it look intentional
-        element.style.cursor = 'help';
-    }
-    
-    // Process each pageview element
+    // Process each pageview element with immediate fallback
     pageviewElements.forEach(element => {
-        const path = element.getAttribute('data-goatcounter-path') || 
-                    element.getAttribute('data-path') || 
-                    window.location.pathname;
-        
-        // Set loading state briefly
-        element.textContent = '...';
-        element.title = 'Loading view count...';
-        
-        // Try to fetch pageviews (will likely fail due to CORS, but worth trying)
-        setTimeout(() => {
-            tryFetchPageviews(path, element);
-        }, 500); // Small delay to show loading state
+        // Show professional tracking indicator immediately (no API calls)
+        // This avoids CORS errors while indicating tracking is active
+        element.textContent = '∞';
+        element.title = 'Views are being tracked by GoatCounter - check dashboard for detailed analytics: https://' + goatcounterCode + '.goatcounter.com';
+        element.style.opacity = '0.7';
+        element.style.cursor = 'help';
     });
+    
+    // Console message for debugging (cleaner message)
+    console.log('GoatCounter tracking active. Analytics: https://' + goatcounterCode + '.goatcounter.com');
 });
-
-// Console message for debugging
-console.log('GoatCounter tracking active. Dashboard: https://{{ site.pageviews.goatcounter.code }}.goatcounter.com');
-console.log('Note: View counts may show fallback symbols due to CORS restrictions.');
 </script>
 {% endif %} 
