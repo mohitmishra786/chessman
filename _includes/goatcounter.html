@@ -2,31 +2,65 @@
         async src="//gc.zgo.at/count.js"></script>
 
 <script>
-// GoatCounter visitor counter implementation
-// Wait for count.js to load before calling visit_count
-var goatCounterInterval = setInterval(function() {
-    if (window.goatcounter && window.goatcounter.visit_count) {
-        clearInterval(goatCounterInterval);
+// GoatCounter visitor counter with proper error handling
+function initGoatCounterViews() {
+    // Check if GoatCounter loaded
+    if (!window.goatcounter || !window.goatcounter.visit_count) {
+        console.log('GoatCounter not loaded yet, retrying...');
+        return false;
+    }
+    
+    // Find all elements with view count placeholders
+    const viewElements = document.querySelectorAll('.goatcounter-views');
+    
+    viewElements.forEach(element => {
+        let path = element.getAttribute('data-goatcounter-path') || window.location.pathname;
         
-        // Find all elements with view count placeholders
-        const viewElements = document.querySelectorAll('.goatcounter-views');
+        // Fix path to prevent double .html extension
+        if (path.endsWith('.html')) {
+            path = path.slice(0, -5);
+        }
         
-        viewElements.forEach(element => {
-            const path = element.getAttribute('data-goatcounter-path') || window.location.pathname;
-            
-            // Create a unique container for each view counter
-            const counterId = 'goatcounter-' + Math.random().toString(36).substr(2, 9);
-            element.innerHTML = '<span id="' + counterId + '">Loading...</span>';
-            
-            // Use GoatCounter's built-in visitor counter
+        // Create a container for the counter
+        const counterId = 'gc-' + Math.random().toString(36).substr(2, 9);
+        element.innerHTML = '<span id="' + counterId + '">...</span>';
+        
+        try {
+            // Use GoatCounter's visitor counter - minimal configuration
             window.goatcounter.visit_count({
                 append: '#' + counterId,
                 path: path,
                 type: 'html',
-                no_branding: true,
-                style: 'div { border: none; background: none; color: inherit; font-size: inherit; }'
+                no_branding: true
             });
-        });
-    }
-}, 100);
+        } catch (error) {
+            console.log('GoatCounter error:', error);
+            document.getElementById(counterId).innerHTML = '<span title="Enable visitor counter in GoatCounter settings">👁️</span>';
+        }
+    });
+    
+    return true;
+}
+
+// Try to initialize when page loads
+window.addEventListener('load', function() {
+    let attempts = 0;
+    const maxAttempts = 50; // 5 seconds max
+    
+    const checkInterval = setInterval(function() {
+        attempts++;
+        
+        if (initGoatCounterViews() || attempts >= maxAttempts) {
+            clearInterval(checkInterval);
+            
+            if (attempts >= maxAttempts) {
+                console.log('GoatCounter visitor counter failed to load');
+                // Show fallback for all view elements
+                document.querySelectorAll('.goatcounter-views').forEach(el => {
+                    el.innerHTML = '<span title="GoatCounter tracking active - enable visitor counter in settings">📊</span>';
+                });
+            }
+        }
+    }, 100);
+});
 </script> 
